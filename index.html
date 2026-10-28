@@ -61,8 +61,21 @@ p{margin:0}
 .badge{position:absolute;top:-2px;left:-2px;min-width:20px;height:20px;border-radius:10px;background:var(--gold);color:var(--fg);font-size:12px;font-weight:700;display:grid;place-items:center;padding:0 5px}
 
 /* ---------- start view ---------- */
-#v-start{min-height:100%;display:flex;flex-direction:column}
-.start-top{padding-block:28px 8px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#v-start{min-height:100%;display:flex;flex-direction:column;position:relative;isolation:isolate}
+.start-bg{position:absolute;inset:0 0 auto;height:clamp(480px,82vh,720px);z-index:-1;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 55%,transparent 100%)}
+.start-bg::before{content:"";position:absolute;inset:-4%;background:url(img/hero-spread.jpg) center 35%/cover no-repeat;transform:scale(1.04);animation:heroDrift 40s ease-in-out infinite alternate}
+.start-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(248,242,234,.6) 0%,rgba(248,242,234,.72) 50%,rgba(248,242,234,.85) 100%)}
+@keyframes heroDrift{from{transform:scale(1.04) translate(0,0)}to{transform:scale(1.1) translate(-1.5%,1%)}}
+.start-hero h1{text-shadow:0 2px 18px rgba(255,248,238,.9)}
+.start-hero p{color:var(--fg)}
+.start-top{padding-block:24px 4px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.top-logos{display:flex;align-items:center;gap:clamp(12px,4vw,28px);min-width:0}
+.top-logo{height:clamp(92px,26vw,150px);width:auto;max-width:42vw;object-fit:contain;display:block;filter:drop-shadow(0 8px 14px rgba(120,80,40,.15))}
+.top-logo.jb{height:clamp(70px,20vw,116px)}
+.logo-link{display:block;border-radius:16px;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.logo-link:hover{transform:translateY(-3px) scale(1.03)}
+.logo-link:active{transform:scale(.97)}
+.logo-sep{width:1px;align-self:stretch;margin-block:12px;background:rgba(58,42,30,.18)}
 .start-top .mark{font-family:var(--display);font-size:22px;color:var(--muted)}
 .start-hero{padding-block:18px 26px}
 .start-hero h1{font-size:clamp(44px,11vw,84px);letter-spacing:-.01em}
@@ -75,6 +88,8 @@ p{margin:0}
 .brand-tile .bt-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px}
 .brand-tile .bt-en{font-family:var(--display);font-size:14px;letter-spacing:.12em;color:var(--gold-ink)}
 .brand-tile h2{font-size:34px}
+.bt-logo{width:min(230px,72%);height:auto;margin-block:2px 4px;filter:drop-shadow(0 6px 10px rgba(120,80,40,.15))}
+.m-logo{height:52px;width:auto;align-self:flex-start;display:block}
 .brand-tile p{color:var(--muted)}
 .brand-tile .go{margin-top:12px;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:var(--tile-accent);color:#1a0d05;font-weight:700;border-radius:999px;padding:10px 18px}
 .start-foot{margin-top:auto;padding-block:16px 28px;display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center;color:var(--dim);font-size:13px}
@@ -127,6 +142,24 @@ p{margin:0}
 .price small{font-weight:500;color:var(--muted);font-size:11px;margin-inline-start:3px}
 .add{width:38px;height:38px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;flex:none}
 .add:active{transform:scale(.9)}
+.add{position:relative}
+.add-n{position:absolute;top:-6px;left:-6px;min-width:20px;height:20px;border-radius:10px;background:var(--gold);color:var(--fg);font-size:11.5px;font-weight:700;display:grid;place-items:center;padding:0 5px;box-shadow:0 0 0 2px #fff}
+.pick-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pick-count{font-size:13px;font-weight:600;padding:4px 12px;border-radius:999px;background:var(--surface-3);color:var(--muted)}
+.pick-count.full{background:var(--ok);color:#fff}
+.pick-list{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+.pick-row{padding:6px 8px;border-radius:14px}
+.pick-row.on{background:rgba(255,255,255,.75)}
+.pick-row .thumb{width:48px}
+.add.sm{width:34px;height:34px}
+.add[disabled],.stepper button[disabled]{opacity:.35;cursor:not-allowed}
+.sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sizes button{min-height:72px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--surface);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-border)}
+.sizes button b{font-weight:600}
+.sizes button small{font-size:11.5px;color:var(--dim)}
+.sizes button span{font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
+.sizes button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:transparent}
+.sizes button[aria-pressed="true"] small{color:rgba(255,248,239,.75)}
 .stepper{display:inline-flex;align-items:center;gap:2px;background:var(--surface-3);border-radius:999px;padding:3px}
 .stepper button{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--fg)}
 .stepper button:hover{background:var(--surface-2)}
@@ -497,43 +530,92 @@ function artBox(item){
 const BRANCHES=[['aali','عالي'],['hamad','مدينة حمد'],['jeblat','جبلة حبشي'],['malikya','المالكية'],['muharraq','المحرق'],['saar','سار'],['sanad','سند'],['sitra','سترة'],['zinj','الزنج']];
 const branchName=id=>(BRANCHES.find(b=>b[0]===id)||['',''])[1];
 const BRANDS={
- fareeq:{id:'fareeq',ar:'فريق بن عاقول',en:'FAREEQ BIN AQOOL',px:'FB',accent:'#ffc23d',tag:'فطور بحريني وأكل بيت، من الفريج لبيتك',hero:'فطور البحرين كما تعرفه',sub:'بيض بالقيمة ونخي وباجلا ورقاق حار من التنور، وكرك يعدّل المزاج.',hue:'#ffb02e',cats:[['eggs','أطباق البيض'],['beans','نخي وباجلا'],['breakfast','فطور تراثي'],['sandwich','رقاق وساندويشات'],['mains','أطباق رئيسية'],['sweets','حلويات'],['drinks','مشروبات']]},
- buns:{id:'buns',ar:'جست بنز',en:'JUST BUNS',px:'JB',accent:'#ffc21a',tag:'بنز بريوش للفطور والدوام، في بوكس يمشي معك',hero:'بن طازج لكل صبح',sub:'خبز بريوش محمّص بالزبدة، محشي بيض وجبن وتونا وديك رومي.',hue:'#ffc21a',tile:'img/jb-tile.jpg',banner:'img/jb-banner.jpg',cats:[['buns','البنز'],['boxes','البوكسات'],['drinks','مشروبات']]}
+ fareeq:{id:'fareeq',ar:'فريج بن عاقول',banner:'img/fba-banner.jpg',logo:'img/fba-logo.png',mark:'img/fba-mark.png',en:'FAREEQ BIN AQOOL',px:'FB',accent:'#ffc23d',tag:'فطور بحريني وأكل بيت، من الفريج لبيتك',hero:'فطور البحرين كما تعرفه',sub:'بيض بن عاقول ونخي وباجلا وخبز محياوة حار، وكرك يعدّل المزاج.',hue:'#ffb02e',cats:[['eggs','أطباق البيض'],['trad','تراثي'],['mains','أطباق رئيسية'],['sides','الجانبية والخبز'],['sweets','حلويات'],['boxes','بوكسات بن عاقول'],['drinks','مشروبات']]},
+ buns:{id:'buns',ar:'جست بنز',mark:'img/jb-logo.png',en:'JUST BUNS',px:'JB',accent:'#ffc21a',tag:'بنز بريوش للفطور والدوام، في بوكس يمشي معك',hero:'Sun’s out.. Buns out!',sub:'خبز بريوش محمّص بالزبدة، محشي بيض وجبن وتونا وديك رومي.',hue:'#ffc21a',tile:'img/jb-tile.jpg',banner:'img/jb-banner2.jpg',cats:[['buns','البنز'],['sides','جوانب'],['boxes','البوكسات'],['drinks','مشروبات']]}
 };
 const MENU=[
- {id:'e1',b:'fareeq',cat:'eggs',name:'بيض بالقيمة',desc:'عجة بيض يتوسطها لحم مفروم بالبهارات وكزبرة وفلفل أخضر.',price:1.0,hue:'#e7a03a',img:'img/egg-keema.jpg',hot:1},
- {id:'f3',b:'fareeq',cat:'eggs',name:'بيض طماط',desc:'بيض مخفوق مع طماط وبصل مطبوخ على نار هادية.',price:.7,hue:'#ff6a3d',img:'img/egg-tomato.jpg',hot:1},
- {id:'e3',b:'fareeq',cat:'eggs',name:'بيض بالبطاط',desc:'عجة مع مكعبات بطاط محمّرة وبصل وكزبرة.',price:.8,hue:'#e7a03a',img:'img/egg-potato.jpg'},
- {id:'e4',b:'fareeq',cat:'eggs',name:'عجة بالبصل والكزبرة',desc:'بيض مع بصل محمّس وطماط وكزبرة طازجة.',price:.7,hue:'#e7a03a',img:'img/omelette-onion.jpg'},
- {id:'e5',b:'fareeq',cat:'eggs',name:'بيض بالبازلاء',desc:'بازلاء مطبوخة بالطماط والبهارات مع بيض فوقها.',price:.8,hue:'#9bb83a',img:'img/egg-peas.jpg'},
- {id:'e6',b:'fareeq',cat:'eggs',name:'بيض عيون',desc:'أربع بيضات عيون بالفلفل الأسود.',price:.6,hue:'#ffcf4f',img:'img/sunny.jpg'},
- {id:'e7',b:'fareeq',cat:'eggs',name:'عجة بيض',desc:'عجة سادة رقيقة بالملح والفلفل.',price:.5,hue:'#ffcf4f',img:'img/omelette.jpg'},
- {id:'e8',b:'fareeq',cat:'eggs',name:'بيض مخفوق',desc:'بيض مخفوق طري بالفلفل الأسود.',price:.6,hue:'#ffcf4f',img:'img/scrambled.jpg'},
- {id:'n1',b:'fareeq',cat:'beans',name:'نخي',desc:'حمص مسلوق بالملح مع فلفل أحمر حار.',price:.5,hue:'#e7a03a',img:'img/nakhi.jpg'},
- {id:'f2',b:'fareeq',cat:'beans',name:'باجلا',desc:'باجلا مسلوقة بالملح والكمون، تتعصر عليها ليمونة.',price:.6,hue:'#c98236',img:'img/baajla.jpg'},
- {id:'f1',b:'fareeq',cat:'breakfast',name:'بلاليط بالبيض',desc:'شعيرية بالزعفران والهيل مع عجة بيض فوقها.',price:1.2,hue:'#ffb02e',art:{t:'plate',kind:'balaleet'},hot:1},
- {id:'f4',b:'fareeq',cat:'breakfast',name:'عصيدة بالدبس',desc:'عصيدة ناعمة يتوسطها سمن ودبس.',price:1.1,hue:'#e7a03a',art:{t:'bowl',food:'#d39a3a',pool:'#f5c33b',bowl:'#7a3e22'}},
- {id:'f5',b:'fareeq',cat:'sandwich',name:'رقاق جبن وبيض',desc:'خبز رقاق من التنور بالجبن الكريمي والبيض.',price:.7,hue:'#ffcc4d',art:{t:'wrap',fill:'#ffd34d',bits:[['#fff6d2',190,90,4]]}},
- {id:'f6',b:'fareeq',cat:'sandwich',name:'ساندويش كبدة',desc:'كبدة حارة بالبهارات مع طماط وفلفل أخضر.',price:.6,hue:'#c2452a',art:{t:'wrap',fill:'#6e2a14',seed:8,bits:[['#e2412c',188,90,4],['#5fae3b',196,104,3.5]]}},
- {id:'f7',b:'fareeq',cat:'sandwich',name:'ساندويش فلافل',desc:'فلافل مقرمشة مع طحينة وخضار.',price:.4,hue:'#8bc34a',art:{t:'wrap',fill:'#8a5a26',seed:2,paper:'#2e7d4f',bits:[['#6dbb3b',190,88,4],['#f4e7c6',196,104,3.5]]}},
- {id:'f8',b:'fareeq',cat:'mains',name:'مچبوس دجاج',desc:'رز بسمتي بالبهارات البحرينية مع دجاج محمّر ودقوس.',price:2.5,hue:'#f08a2e',art:{t:'plate',kind:'rice',seed:6},hot:1},
- {id:'f9',b:'fareeq',cat:'mains',name:'مچبوس لحم',desc:'لحم غنم طري مطبوخ مع الرز واللومي.',price:3.2,hue:'#c96a2a',art:{t:'plate',kind:'rice',meat:'lamb',seed:12}},
- {id:'f10',b:'fareeq',cat:'sweets',name:'لقيمات بالدبس',desc:'لقيمات ذهبية مقرمشة مغطاة بدبس التمر والسمسم.',price:1.0,hue:'#e0962e',art:{t:'luqaimat'}},
- {id:'f11',b:'fareeq',cat:'drinks',name:'شاي كرك',desc:'كرك بالحليب والهيل والزعفران.',price:.2,hue:'#c47a35',art:{t:'tea'},hot:1},
- {id:'f12',b:'fareeq',cat:'drinks',name:'ليمون بالنعناع',desc:'ليمون طازج مع نعناع وثلج.',price:.8,hue:'#9bd04b',art:{t:'cup',c:'#9fd04f',band:'#f4ffe0',dot:'#2e7d4f',straw:'#2e7d4f'}},
+ {id:'e8',b:'fareeq',cat:'eggs',name:'بيض وجبن',desc:'بيض مخفوق طري مع جبن مبشور ذايب.',sizes:1,price:[.8,1.0,1.2],hue:'#ffcf4f',img:'img/egg-cheese.jpg'},
+ {id:'e1',b:'fareeq',cat:'eggs',name:'بيض بن عاقول',desc:'عجة بيض فوقها قيمة بالبهارات وطماط وكزبرة.',sizes:1,price:[1.0,1.3,1.6],hue:'#e7a03a',img:'img/egg-binaqool.jpg',hot:1},
+ {id:'e4',b:'fareeq',cat:'eggs',name:'بيض بالخضار',desc:'عجة بيض مع بطاط محمّر وطماط وفلفل أخضر.',sizes:1,price:[.7,.9,1.1],hue:'#e7a03a',img:'img/egg-veg.jpg'},
+ {id:'f3',b:'fareeq',cat:'eggs',name:'بيض طماط',desc:'بيض مخفوق مع طماط مطبوخ.',sizes:1,price:[.7,.9,1.1],hue:'#ff6a3d',img:'img/egg-tomato2.jpg',hot:1},
+ {id:'es',b:'fareeq',cat:'eggs',name:'شكشوكة',desc:'عجة بيض مع بصل وطماط.',sizes:1,price:[.8,1.0,1.2],hue:'#ff6a3d',img:'img/egg-shakshoka.jpg'},
+ {id:'e7',b:'fareeq',cat:'eggs',name:'بيض مقلي',desc:'عجة بيض سادة.',sizes:1,price:[.6,.8,1.0],hue:'#ffcf4f',img:'img/egg-fried.jpg'},
+ {id:'e5',b:'fareeq',cat:'eggs',name:'فاصوليا وبيض',desc:'بيض مخفوق مع فاصوليا بالطماط.',sizes:1,price:[.8,1.0,1.2],hue:'#9bb83a',img:'img/egg-beans.jpg'},
+ {id:'e6',b:'fareeq',cat:'eggs',name:'بيض عيون',desc:'بيض عيون بالملح والفلفل الأسود.',sizes:1,price:[.6,.8,1.0],hue:'#ffcf4f',img:'img/egg-ayoon.jpg'},
+ {id:'n1',b:'fareeq',cat:'trad',name:'نخي',desc:'حمص مسلوق بالملح مع فلفل أحمر حار.',sizes:1,price:[.5,.7,.9],hue:'#e7a03a',img:'img/nakhi.jpg',hot:1},
+ {id:'f2',b:'fareeq',cat:'trad',name:'باجلا',desc:'باجلا مسلوقة بالملح والكمون، تتعصر عليها ليمونة.',sizes:1,price:[.5,.7,.9],hue:'#c98236',img:'img/baajla2.jpg'},
+ {id:'t3',b:'fareeq',cat:'trad',name:'دال',desc:'عدس مطبوخ بالبهارات.',sizes:1,price:[.6,.8,1.0],hue:'#e0a83a',img:'img/daal.jpg'},
+ {id:'t4',b:'fareeq',cat:'trad',name:'لوبا',desc:'لوبيا مسلوقة بالملح.',sizes:1,price:[.6,.8,1.0],hue:'#b07a4a',img:'img/looba.jpg'},
+ {id:'t5',b:'fareeq',cat:'trad',name:'نخي بن عاقول',desc:'نخي مسلوق مع فلفل أحمر مجفف على طريقة بن عاقول.',sizes:1,price:[.7,.9,1.1],hue:'#e7a03a',img:'img/nakhi2.jpg'},
+ {id:'t6',b:'fareeq',cat:'trad',name:'شيلة',desc:'طبق الشيلة البحريني.',sizes:1,price:[.6,.8,1.0],hue:'#c9a46b',art:{t:'bowl',food:'#c9a46b',oil:'#8a5a26',seed:7,dots:[['#5fae3b',8]]}},
+ {id:'m1',b:'fareeq',cat:'mains',name:'كبدة لحم',desc:'كبدة لحم بالبصل والبطاط والفلفل والكزبرة.',sizes:1,price:[1.0,1.3,1.6],hue:'#a8432a',img:'img/m-liver.jpg'},
+ {id:'m2',b:'fareeq',cat:'mains',name:'كبدة دجاج',desc:'كبدة دجاج مع بطاط وباذنجان وفلفل أخضر.',sizes:1,price:[.9,1.2,1.5],hue:'#b0502a',img:'img/m-chliver.jpg'},
+ {id:'m3',b:'fareeq',cat:'mains',name:'فاصوليا',desc:'فاصوليا مطبوخة بصلصة الطماط.',sizes:1,price:[.6,.8,1.0],hue:'#c2452a',img:'img/m-beans.jpg'},
+ {id:'m4',b:'fareeq',cat:'mains',name:'فول',desc:'فول مدمّس بالكمون والسمن.',sizes:1,price:[.5,.7,.9],hue:'#c98236',img:'img/foul.jpg'},
+ {id:'m5',b:'fareeq',cat:'mains',name:'فول وجبن',desc:'فول مدمّس مع جبن.',sizes:1,price:[.7,.9,1.1],hue:'#c98236',art:{t:'bowl',food:'#8a5530',pool:'#fff0c4',seed:11,dots:[['#5a3418',12]]}},
+ {id:'m6',b:'fareeq',cat:'mains',name:'قيمة بالبطاط',desc:'لحم مفروم مع بطاط وبازلاء بالبهارات.',sizes:1,price:[1.0,1.3,1.6],hue:'#d07a2a',img:'img/m-keema.jpg'},
+ {id:'m7',b:'fareeq',cat:'mains',name:'مقلقل لحم',desc:'قطع لحم مقلّبة بالبصل والطماط والفلفل.',sizes:1,price:[1.3,1.7,2.1],hue:'#7a4a2a',img:'img/m-maglag.jpg'},
+ {id:'m8',b:'fareeq',cat:'mains',name:'صالونة لحم',desc:'لحم مع بطاط وحمص ولومي.',sizes:1,price:[1.3,1.7,2.1],hue:'#c9602a',img:'img/m-meat.jpg'},
+ {id:'m9',b:'fareeq',cat:'mains',name:'صالونة دجاج',desc:'دجاج مفتّت مع حمص بالبهارات.',sizes:1,price:[1.1,1.4,1.7],hue:'#e08a2a',img:'img/m-chicken.jpg'},
+ {id:'m10',b:'fareeq',cat:'mains',name:'صالونة خضار',desc:'بامية وقرع وجزر وبطاط وكوسة.',sizes:1,price:[.8,1.0,1.2],hue:'#c9a02a',img:'img/m-veg.jpg'},
+ {id:'m11',b:'fareeq',cat:'mains',name:'صالونة روبيان',desc:'روبيان بصلصة الطماط والكزبرة.',sizes:1,price:[1.5,1.9,2.3],hue:'#d0702a',img:'img/m-shrimp.jpg'},
+ {id:'m12',b:'fareeq',cat:'mains',name:'عيش أبيض',desc:'رز بسمتي بالبصل المحمّر والزبيب والهيل.',price:.6,hue:'#e8d6b0',img:'img/m-rice.jpg'},
+ {id:'s1',b:'fareeq',cat:'sides',name:'فلافل',desc:'أقراص فلافل مقرمشة.',price:.5,hue:'#8bc34a',art:{t:'bowl',food:'#7a4a1c',seed:12,dots:[['#5a3010',16],['#6dbb3b',6]]}},
+ {id:'s2',b:'fareeq',cat:'sides',name:'جبن مبشور',desc:'جبن مبشور مع خبزة.',price:1.0,hue:'#ffcf4f',img:'img/s-cheese.jpg'},
+ {id:'s3',b:'fareeq',cat:'sides',name:'خبز محياوة',desc:'خبز رقاق بالمحياوة.',price:.3,hue:'#d06a2a',art:{t:'wrap',fill:'#d06a2a',seed:3}},
+ {id:'s4',b:'fareeq',cat:'sides',name:'محياوة جبن',desc:'خبز محياوة بالجبن.',price:.5,hue:'#ffcc4d',art:{t:'wrap',fill:'#ffd34d',seed:4,bits:[['#d06a2a',190,92,4]]}},
+ {id:'s5',b:'fareeq',cat:'sides',name:'محياوة جبن وبيض',desc:'خبز محياوة بالجبن والبيض.',price:1.0,hue:'#ffcc4d',art:{t:'wrap',fill:'#ffd34d',seed:5,bits:[['#fff6d2',190,90,5],['#d06a2a',196,104,3]]}},
+ {id:'s6',b:'fareeq',cat:'sides',name:'خبز أبيض',desc:'خبز أبيض من التنور.',price:.025,hue:'#efcf93',img:'img/s-white.jpg'},
+ {id:'s7',b:'fareeq',cat:'sides',name:'خبز أسمر',desc:'خبز أسمر من التنور.',price:.025,hue:'#b07a4a',img:'img/s-brown.jpg'},
+ {id:'s8',b:'fareeq',cat:'sides',name:'كباب خضار',desc:'كباب خضار تراثي.',price:.5,hue:'#8bc34a',art:{t:'bowl',food:'#9a6a2a',seed:14,dots:[['#7a4a1c',14],['#5fae3b',10]]}},
+ {id:'s9',b:'fareeq',cat:'sides',name:'سمبوسة جبن',desc:'سمبوسة مقرمشة محشية جبن.',price:.5,hue:'#e0a83a',img:'img/s-sambosa.jpg'},
+ {id:'s10',b:'fareeq',cat:'sides',name:'جبن كريمي',desc:'علبة جبن بالقشطة.',price:.3,hue:'#dfe6ea',img:'img/s-cream.jpg'},
+ {id:'s11',b:'fareeq',cat:'sides',name:'روب',desc:'روب طبيعي طازج.',price:.3,hue:'#dfe6ea',img:'img/s-yogurt.jpg'},
+ {id:'w1',b:'fareeq',cat:'sweets',name:'فطيطة',desc:'فطيطة بحرينية بالسكر والهيل.',price:1.0,hue:'#f0d9a0',art:{t:'bowl',food:'#f0d9a0',pool:'#e5a83a',bowl:'#7a3e22',seed:16}},
+ {id:'f4',b:'fareeq',cat:'sweets',name:'عصيدة',desc:'عصيدة بالسمن والهيل.',price:1.0,hue:'#e7a03a',img:'img/w-aseeda.jpg'},
+ {id:'f1',b:'fareeq',cat:'sweets',name:'بلاليط',desc:'شعيرية حلوة بالهيل مع عجة بيض.',price:1.0,hue:'#ffb02e',img:'img/w-balaleet.jpg'},
+ {id:'w2',b:'fareeq',cat:'sweets',name:'لقيمات',desc:'لقيمات مقرمشة بالدبس والسمسم.',price:1.0,hue:'#e0962e',img:'img/w-luqaimat.jpg',hot:1},
+ {id:'x1',b:'fareeq',cat:'boxes',name:'بوكس العائلة الصغير',desc:'اختر أي 3 أطباق من المنيو في بوكس واحد.',pick:3,price:3.5,hue:'#c9a06a',img:'img/x-box3.jpg'},
+ {id:'x2',b:'fareeq',cat:'boxes',name:'بوكس العائلة الكبير',desc:'اختر أي 6 أطباق من المنيو مع الخبز.',pick:6,price:6.5,hue:'#c9a06a',img:'img/x-box6.jpg',hot:1},
+ {id:'f11',b:'fareeq',cat:'drinks',name:'شاي كرك',desc:'كرك بالحليب والهيل.',price:.3,hue:'#c47a35',img:'img/d-karak.jpg',hot:1},
+ {id:'d2',b:'fareeq',cat:'drinks',name:'شاي أحمر',desc:'شاي أحمر بالهيل.',price:.2,hue:'#b8461e',img:'img/d-tea-red.jpg'},
+ {id:'d3',b:'fareeq',cat:'drinks',name:'زعفران',desc:'مشروب الزعفران.',price:.4,hue:'#f2b233',img:'img/d-saffron.jpg'},
+ {id:'d4',b:'fareeq',cat:'drinks',name:'ورد',desc:'مشروب الورد.',price:.4,hue:'#f2a0b8',img:'img/d-rose.jpg'},
+ {id:'d5',b:'fareeq',cat:'drinks',name:'ماي أكوافينا',desc:'قنينة ماي 600 مل.',price:.1,hue:'#7cc4ff',img:'img/d-water.jpg'},
+ {id:'p1',b:'fareeq',cat:'drinks',name:'بيبسي',desc:'علبة باردة 330 مل.',price:.25,hue:'#dfe6ea',img:'img/d-pepsi.jpg'},
+ {id:'p2',b:'fareeq',cat:'drinks',name:'دايت بيبسي',desc:'علبة باردة 330 مل.',price:.25,hue:'#dfe6ea',img:'img/d-pepsi-diet.jpg'},
+ {id:'p3',b:'fareeq',cat:'drinks',name:'سفن أب',desc:'علبة باردة 330 مل.',price:.25,hue:'#dfe6ea',img:'img/d-7up.jpg'},
+ {id:'p4',b:'fareeq',cat:'drinks',name:'سفن أب فري',desc:'علبة باردة 330 مل.',price:.25,hue:'#dfe6ea',img:'img/d-7up-free.jpg'},
+ {id:'p5',b:'fareeq',cat:'drinks',name:'ميرندا برتقال',desc:'علبة باردة 330 مل.',price:.25,hue:'#dfe6ea',img:'img/d-mirinda-orange.jpg'},
+ {id:'p6',b:'fareeq',cat:'drinks',name:'ميرندا حمضيات',desc:'علبة باردة 330 مل.',price:.25,hue:'#dfe6ea',img:'img/d-mirinda-citrus.jpg'},
+ {id:'p7',b:'fareeq',cat:'drinks',name:'ماونتن ديو',desc:'علبة باردة 330 مل.',price:.25,hue:'#dfe6ea',img:'img/d-dew.jpg'},
+ {id:'p8',b:'fareeq',cat:'drinks',name:'شاني',desc:'علبة باردة 330 مل.',price:.25,hue:'#dfe6ea',img:'img/d-shani.jpg'},
  {id:'j1',b:'buns',cat:'buns',name:'بن بيض وجبن',desc:'عجة بيض طرية مع جبن ذايب في خبز بريوش محمّص بالزبدة.',price:1.2,hue:'#ffc21a',img:'img/jb-eggcheese.jpg',hot:1},
  {id:'j2',b:'buns',cat:'buns',name:'بن تونا',desc:'سلطة تونا بالمايونيز مع خس مقرمش.',price:1.3,hue:'#ffc21a',img:'img/jb-tuna.jpg',hot:1},
  {id:'j3',b:'buns',cat:'buns',name:'بن ديك رومي وبيض',desc:'شريحة ديك رومي مع بيضة عيون وصوص البيت.',price:1.5,hue:'#ffc21a',img:'img/jb-turkey.jpg'},
  {id:'j4',b:'buns',cat:'buns',name:'بن سلطة دجاج',desc:'دجاج مفتّت بالمايونيز مع خس.',price:1.4,hue:'#ffc21a',img:'img/jb-chicken.jpg'},
  {id:'j5',b:'buns',cat:'buns',name:'بن بيض وبيف بيكن',desc:'بيض مخفوق مع بيف بيكن مقرمش وبصل.',price:1.6,hue:'#ffc21a',img:'img/jb-bacon.jpg'},
- {id:'k2',b:'buns',cat:'boxes',name:'بوكس 2 بنز',desc:'اختر أي نوعين واكتبهم في الملاحظة.',price:2.6,hue:'#ffc21a',img:'img/jb-box2.jpg'},
- {id:'k3',b:'buns',cat:'boxes',name:'بوكس 3 بنز',desc:'ثلاث بنز من اختيارك في بوكس واحد، اكتب الأنواع في الملاحظة.',price:3.8,hue:'#ffc21a',img:'img/jb-box3.jpg',hot:1},
- {id:'k9',b:'buns',cat:'boxes',name:'بوكس العزيمة',desc:'تسع بنز مشكّلة للدوام أو العزيمة.',price:10.5,hue:'#ffc21a',img:'img/jb-box9.jpg'},
+ {id:'j6',b:'buns',cat:'buns',name:'بن دجاج كرسبي',desc:'صدر دجاج مقرمش مع مايونيز وخس.',price:1.6,hue:'#ffc21a',img:'img/jb-crispy.jpg',hot:1},
+ {id:'j7',b:'buns',cat:'buns',name:'بن بيض مخفوق',desc:'بيض مخفوق طري مع بصل أخضر وصوص البيت.',price:1.2,hue:'#ffc21a',img:'img/jb-scramble.jpg'},
+ {id:'j8',b:'buns',cat:'buns',name:'بن بلاليط',desc:'بلاليط بالزعفران مع عجة بيض وجبن داخل بريوش.',price:1.3,hue:'#ffc21a',img:'img/jb-balaleet.jpg',hot:1},
+ {id:'j9',b:'buns',cat:'buns',name:'بن مشروم وديك رومي',desc:'بيض مخفوق مع مشروم وشرائح ديك رومي.',price:1.6,hue:'#ffc21a',img:'img/jb-mushroom.jpg'},
+ {id:'r2',b:'buns',cat:'sides',name:'هاش براون',desc:'قطعتين هاش براون بطاط مقرمشة.',price:.8,hue:'#ffc21a',img:'img/jb-hashbrown.jpg'},
+ {id:'r1',b:'buns',cat:'sides',name:'رولات جبن',desc:'رولات رقاق مقرمشة محشية جبن، في بوكس.',price:1.5,hue:'#ffc21a',img:'img/jb-rolls.jpg'},
+ {id:'k2',b:'buns',cat:'boxes',name:'بوكس 2 بنز',desc:'اختر أي نوعين من البنز.',pick:2,price:2.6,hue:'#ffc21a',img:'img/jb-box2.jpg'},
+ {id:'k3',b:'buns',cat:'boxes',name:'بوكس 3 بنز',desc:'اختر أي 3 بنز في بوكس واحد.',pick:3,price:3.8,hue:'#ffc21a',img:'img/jb-box3m.jpg',hot:1},
+ {id:'k9',b:'buns',cat:'boxes',name:'بوكس العزيمة',desc:'اختر 9 بنز للدوام أو العزيمة.',pick:9,price:10.5,hue:'#ffc21a',img:'img/jb-box9b.jpg'},
  {id:'b8',b:'buns',cat:'drinks',name:'كولا',desc:'مشروب غازي بارد.',price:.4,hue:'#e3412b',art:{t:'cup',c:'#2a1611'}},
  {id:'b9',b:'buns',cat:'drinks',name:'ميلك شيك فراولة',desc:'حليب وآيس كريم وفراولة مع كريمة.',price:1.4,hue:'#f58bb0',art:{t:'cup',c:'#f58bb0',shake:1,band:'#fff0f6',dot:'#d81f3a'}}
 ];
 const byId=id=>MENU.find(m=>m.id===id);
-const priceOf=id=>{const e=store.menuEdits[id];return (e&&typeof e.price==='number')?e.price:byId(id).price};
+const SIZES=[['صغير','خبزتين'],['وسط','3 خبزات'],['كبير','4 خبزات']];
+const priceArr=id=>{const m=byId(id),e=store.menuEdits[id];if(m.sizes){return (e&&Array.isArray(e.price)&&e.price.length===3)?e.price:m.price}return [(e&&typeof e.price==='number')?e.price:m.price]};
+const priceOf=(id,sz)=>{const a=priceArr(id);return a[sz||0]??a[0]};
+const lineName=l=>{const m=byId(l.id);return m.name+(m.sizes?' · '+SIZES[l.sz||0][0]:'')};
+const AREAS=[['محافظة العاصمة','Abu Bham|Adhari|Adliya|Al Fateh|Al Nasfa|Al Qufool|Al Salihiyah|Alsuwayfiyah|Awadhiya|Bahrain Bay|Bu Ashira|Bu Ghazal|Burhama|Diplomatic Area|Ghuraifa|Gudaibiya|Gufool|Hoora|Jidd Ali|Jirdab|Juffair|Jurdab|Karbabad|Khamis|Mahooz|Manama City|Mina Salman|Nabih Saleh|Noaim|Ras Rumman|Reef Island|Salhiya|Salmaniya|Sanabis|Sanad|Seef|Sihla (South)|Sugaya|Tubli|Um Al Hassam|Zinj'],
+ ['محافظة المحرق','Al Dair|Al Jowder|Amwaj|Arad|Busaiteen|Diyar Al-Muharraq|Galali|Gumra|Halat Bu Maher|Hidd|Hidd Industrial Area|Muharraq|Samaheej'],
+ ['المحافظة الشمالية','Aali|Abu Quwah|Abu Saiba|Ain Aldaar|Al Daih|Al Hajar|Al Kawara|Al Lawzi|Al Markh|Al Musalla|Al Qadam|Al Qala|Bani Jamra|Barbar|Bilad Alqadeem|Boori|Budaiya|Buquwa|Dar Kulaib|Dumistan|Duraz|Hamad Town|Hamad Town (1-10)|Hamad Town (1-2)|Hamad Town (1-6)|Hamad Town (3-22)|Hamala|Hillat Abdul Saleh|Hoarat A\'ali|Jabalat Habshi|Janabiya|Jannusan|Jasra|Jid Al-Haj|Jidhafs|Karrana|Karzakan|Malikiya|Maqaba|Maqsha|Muqsha|Northern City|Qurayya|Qurriyah|Saar|Sadad|Salmabad|Salman City|Sehla|Shahrakan|Shakhura|Sihla (North)|Tashan'],
+ ['المحافظة الجنوبية','Al Buhair|Al Dur|Al Safriyah|Alareen|Alhajiyat|Askar|Awali|Bu Kowarah|Durrat Al Bahrain|Eker (East)|Eker (West)|Isa Town|Jary Al Shaikh|Jaww|Jazaair Beach|Maameer|Mazrowiah|Nuwaidrat|Riffa|Riffa - East|Riffa - West|Riffa Views|Safra|Sakhir|Sitra|Sitra - Abu AlAish|Sitra - Al Kharjiya|Sitra - Markuban|Sitra - Muhazza|Sitra - Sufala|Sitra - Um Al Baidh|Sitra - Wadiyan|Sitra Al Gharya|Wadi Alsail|Zallaq|Zayed Town']].map(([g,l])=>[g,l.split('|')]);
 const isAvail=id=>{const e=store.menuEdits[id];return !(e&&e.off)};
 
 /* ---------------- store ---------------- */
@@ -545,13 +627,13 @@ function sampleReceipt(amount,ref){
 function seedStore(){
  const now=Date.now(),m=60000;
  const orders=[
-  {id:'FB-1037',brand:'fareeq',items:[{id:'f1',qty:2,note:''},{id:'f11',qty:3,note:'سكر خفيف'},{id:'f5',qty:1,note:''}],type:'pickup',branch:'muharraq',address:'',name:'أحمد (مثال)',phone:'33xxxxxx',pay:'iban',total:3.7,receipt:sampleReceipt('3.700','FB-1037'),status:'review',at:now-4*m,sample:true},
+  {id:'FB-1037',brand:'fareeq',items:[{id:'f1',qty:2,note:''},{id:'f11',qty:3,note:'سكر خفيف'},{id:'e8',qty:1,note:'',sz:1}],type:'pickup',branch:'muharraq',address:'',name:'أحمد (مثال)',phone:'33xxxxxx',pay:'iban',total:3.9,receipt:sampleReceipt('3.900','FB-1037'),status:'review',at:now-4*m,sample:true},
   {id:'JB-1038',brand:'buns',items:[{id:'j3',qty:1,note:'بدون صوص'},{id:'j1',qty:2,note:''},{id:'b8',qty:2,note:''}],type:'delivery',branch:'sitra',address:'مجمع 611، طريق 1102، منزل 45',name:'مريم (مثال)',phone:'36xxxxxx',pay:'benefit',total:5.2,receipt:sampleReceipt('5.200','JB-1038'),status:'preparing',at:now-18*m,sample:true},
-  {id:'FB-1036',brand:'fareeq',items:[{id:'f8',qty:2,note:''},{id:'f12',qty:2,note:''}],type:'pickup',branch:'sitra',address:'',name:'يوسف (مثال)',phone:'39xxxxxx',pay:'iban',total:6.6,receipt:sampleReceipt('6.600','FB-1036'),status:'done',at:now-70*m,sample:true}
+  {id:'FB-1036',brand:'fareeq',items:[{id:'n1',qty:2,note:'',sz:2},{id:'s3',qty:4,note:''}],type:'pickup',branch:'sitra',address:'',name:'يوسف (مثال)',phone:'39xxxxxx',pay:'iban',total:3.0,receipt:sampleReceipt('3.000','FB-1036'),status:'done',at:now-70*m,sample:true}
  ];
- return {v:1,seq:1038,settings:{holder:'مطعم فريق بن عاقول',bank:'اسم البنك',iban:'BH67BMAG00001299123456',benefit:'33000000',fee:.5,pin:'1234',sample:true},menuEdits:{},orders,mine:[],profile:{name:'',phone:'',branch:''},carts:{fareeq:[],buns:[]}};
+ return {v:1,seq:1038,settings:{holder:'مطعم فريج بن عاقول',bank:'اسم البنك',iban:'BH67BMAG00001299123456',benefit:'33000000',fee:.5,pin:'1234',sample:true},menuEdits:{},orders,mine:[],profile:{name:'',phone:'',branch:''},carts:{fareeq:[],buns:[]}};
 }
-function loadStore(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.v===1){['fareeq','buns'].forEach(b=>s.carts[b]=(s.carts[b]||[]).filter(l=>byId(l.id)));s.orders=s.orders.filter(o=>o.items.every(l=>byId(l.id)));return s}}catch(e){}return seedStore()}
+function loadStore(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.v===1){if(s.settings&&s.settings.holder==='مطعم فريق بن عاقول')s.settings.holder='مطعم فريج بن عاقول';['fareeq','buns'].forEach(b=>s.carts[b]=(s.carts[b]||[]).filter(l=>byId(l.id)));s.orders=s.orders.filter(o=>o.items.every(l=>byId(l.id)));return s}}catch(e){}return seedStore()}
 let store=loadStore();
 function save(){
  for(let tries=0;tries<3;tries++){
@@ -622,7 +704,8 @@ function renderStart(){
    <span class="go">اطلب الآن ${ic('fwd',18)}</span></div></a>`};
  const myCount=store.mine.filter(id=>{const o=store.orders.find(x=>x.id===id);return o&&!['done','rejected'].includes(o.status)}).length;
  $('#v-start').innerHTML=`
-  <div class="wrap start-top"><span class="mark">فريق · بنز</span>
+  <div class="start-bg" aria-hidden="true"></div>
+  <div class="wrap start-top"><div class="top-logos"><a class="logo-link" href="#fareeq" aria-label="قائمة فريج بن عاقول"><img class="top-logo" src="img/fba-logo.png" alt="فريج بن عاقول"></a><span class="logo-sep" aria-hidden="true"></span><a class="logo-link" href="#buns" aria-label="قائمة جست بنز"><img class="top-logo jb" src="img/jb-logo.png" alt="Just Buns"></a></div>
    <button class="icon-btn" data-act="mine" aria-label="طلباتي">${ic('receipt')}${myCount?`<span class="badge">${myCount}</span>`:''}</button></div>
   <div class="wrap start-hero"><h1 id="start-h">شنو بتاكل اليوم؟</h1><p>اختر المطعم، اطلب من جوالك، وادفع بتحويل آيبان أو BenefitPay. نجهّز طلبك أول ما نتأكد من التحويل.</p></div>
   <div class="wrap brands">${tile('fareeq')}${tile('buns')}</div>
@@ -635,7 +718,7 @@ function renderStart(){
 const cart=()=>store.carts[brand];
 const qtyOf=id=>cart().filter(l=>l.id===id).reduce((s,l)=>s+l.qty,0);
 const cartCount=()=>cart().reduce((s,l)=>s+l.qty,0);
-const subtotal=()=>cart().reduce((s,l)=>s+l.qty*priceOf(l.id),0);
+const subtotal=()=>cart().reduce((s,l)=>s+l.qty*priceOf(l.id,l.sz),0);
 function renderMenu(){
  const B=BRANDS[brand];
  const items=MENU.filter(m=>m.b===brand);
@@ -650,14 +733,14 @@ function renderMenu(){
   <header class="m-head"><div class="wrap">
    <div class="row">
     <a class="icon-btn" href="#" aria-label="رجوع لاختيار المطعم">${ic('back')}</a>
-    <div class="m-brand"><small>${B.en}</small><b>${B.ar}</b></div>
+    <div class="m-brand">${B.mark?`<img class="m-logo" src="${B.mark}" alt="${B.ar}">`:`<small>${B.en}</small><b>${B.ar}</b>`}</div>
     <button class="branch-chip" data-act="branch">${ic('pin',16)}<span>${br?branchName(br):'اختر الفرع'}</span></button>
     <button class="icon-btn" data-act="mine" aria-label="طلباتي">${ic('receipt')}</button>
    </div>
    <nav class="cats" aria-label="الأقسام">${B.cats.map(([c,n],i)=>`<button class="cat" data-act="cat" data-cat="${c}" aria-current="${i===0}">${n}</button>`).join('')}</nav>
   </div></header>
   <div class="wrap">
-   <div class="m-hero">${B.banner?`<div class="m-banner"><img src="${B.banner}" alt="بوكسات ${esc(B.ar)}"></div>`:''}<h1 id="menu-h">${B.hero}</h1><p>${B.sub}</p></div>
+   <div class="m-hero">${B.banner?`<div class="m-banner"><img src="${B.banner}" alt="بوكسات ${esc(B.ar)}"></div>`:''}<h1 id="menu-h"${/^[A-Za-z]/.test(B.hero)?' dir="ltr" style="text-align:right"':''}>${B.hero}</h1><p>${B.sub}</p></div>
    ${secs}
    <div class="m-end"></div>
   </div>
@@ -673,8 +756,8 @@ function cardHTML(m,wide){
   ${m.hot&&av?'<span class="tag-hot">الأكثر طلباً</span>':''}
   <button class="art-btn" data-act="item" data-id="${m.id}" aria-label="تفاصيل ${esc(m.name)}">${artBox(m)}</button>
   <div class="c-body"><span class="c-name">${esc(m.name)}</span><span class="c-desc">${esc(m.desc)}</span>
-   <div class="c-foot"><span class="price num">${bhd(priceOf(m.id))}<small>د.ب</small></span>
-   ${!av?'<span class="soldout-chip">نفد اليوم</span>':q?stepper(m.id,q):`<button class="add" data-act="add" data-id="${m.id}" aria-label="أضف ${esc(m.name)}">${ic('plus',20)}</button>`}
+   <div class="c-foot"><span class="price num">${m.sizes?'<small style="margin:0 0 0 3px">من</small>':''}${bhd(priceOf(m.id,0))}<small>د.ب</small></span>
+   ${!av?'<span class="soldout-chip">نفد اليوم</span>':(m.sizes||m.pick)?`<button class="add" data-act="item" data-id="${m.id}" aria-label="${m.pick?'اختر أطباق':'اختر حجم'} ${esc(m.name)}">${ic('plus',20)}${q?`<span class="add-n num">${q}</span>`:''}</button>`:q?stepper(m.id,q):`<button class="add" data-act="add" data-id="${m.id}" aria-label="أضف ${esc(m.name)}">${ic('plus',20)}</button>`}
    </div></div></article>`;
 }
 const stepper=(id,q,lg)=>`<span class="stepper${lg?' lg':''}"><button data-act="inc" data-id="${id}" aria-label="زيادة">${ic('plus',16)}</button><span class="n num">${q}</span><button data-act="dec" data-id="${id}" aria-label="إنقاص">${ic('minus',16)}</button></span>`;
@@ -683,9 +766,9 @@ function renderCartBar(){
  const bar=$('#cartbar');if(!bar)return;const n=cartCount();
  bar.innerHTML=n?`<button data-act="cart"><span class="cnt num" id="cart-cnt">${n}</span><span class="lbl">عرض السلة</span><span class="tot">${bhd(subtotal())} د.ب</span><span style="width:8px"></span></button>`:'';
 }
-function addToCart(id,qty=1,note='',fromEl){
- const c=cart();const l=c.find(x=>x.id===id&&x.note===note);
- if(l)l.qty+=qty;else c.push({id,qty,note});
+function addToCart(id,qty=1,note='',fromEl,sz=0){
+ const c=cart();const l=c.find(x=>x.id===id&&x.note===note&&(x.sz||0)===sz);
+ if(l)l.qty+=qty;else c.push({id,qty,note,sz});
  save();refreshCard(id);renderCartBar();
  const g=G();const target=$('#cart-cnt');
  if(g&&fromEl&&target){
@@ -730,29 +813,35 @@ function renderSheet(){
 }
 const head=(t,back)=>`<div class="sh-head">${back?`<button class="icon-btn" data-act="${back}" aria-label="رجوع">${ic('back')}</button>`:''}<h2>${t}</h2><button class="icon-btn" data-act="close-sheet" aria-label="إغلاق">${ic('x')}</button></div>`;
 
-let itemQty=1;
+let itemQty=1,itemSz=0,itemPicks={};
+const pickPool=m=>MENU.filter(x=>x.b===m.b&&(m.b==='fareeq'?['eggs','trad','mains','sweets']:['buns']).includes(x.cat)&&isAvail(x.id));
+const pickTotal=()=>Object.values(itemPicks).reduce((s,n)=>s+n,0);
+const pickNote=m=>pickPool(m).filter(x=>itemPicks[x.id]).map(x=>x.name+(itemPicks[x.id]>1?' ×'+itemPicks[x.id]:'')).join('، ');
 function sItem(id){
- const m=byId(id);
+ const m=byId(id);const pr=priceOf(id,itemSz);
  return `<div class="item-art">${artBox(m)}</div>
   ${head(esc(m.name))}
   <p style="color:var(--muted)">${esc(m.desc)}</p>
-  <div class="sh-sec" style="border:0"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span class="price num" style="font-size:22px">${bhd(priceOf(id))}<small>د.ب</small></span>${stepper('__item',itemQty,true)}</div></div>
+  ${m.pick?`<div class="sh-sec" style="border:0;padding-bottom:0"><div class="pick-head"><h3>اختر ${m.pick} أطباق</h3><span class="pick-count${pickTotal()===m.pick?' full':''}"><span class="num">${pickTotal()}</span> من <span class="num">${m.pick}</span></span></div>
+   <div class="pick-list">${pickPool(m).map(x=>{const n=itemPicks[x.id]||0;return `<div class="line pick-row${n?' on':''}"><div class="thumb">${artBox(x)}</div><div class="meta"><b>${esc(x.name)}</b></div>${n?`<span class="stepper"><button data-act="pinc" data-v="${x.id}" aria-label="زيادة ${esc(x.name)}" ${pickTotal()>=m.pick?'disabled':''}>${ic('plus',16)}</button><span class="n num">${n}</span><button data-act="pdec" data-v="${x.id}" aria-label="إنقاص ${esc(x.name)}">${ic('minus',16)}</button></span>`:`<button class="add sm" data-act="pinc" data-v="${x.id}" aria-label="اختر ${esc(x.name)}" ${pickTotal()>=m.pick?'disabled':''}>${ic('plus',18)}</button>`}</div>`}).join('')}</div></div>`:''}
+  ${m.sizes?`<div class="sh-sec" style="border:0;padding-bottom:0"><h3>اختر الحجم</h3><div class="sizes">${SIZES.map((z,i)=>`<button data-act="isz" data-v="${i}" aria-pressed="${itemSz===i}"><b>${z[0]}</b><small>${z[1]}</small><span>${bhd(priceOf(id,i))}</span></button>`).join('')}</div></div>`:''}
+  <div class="sh-sec" style="border:0"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span class="price num" style="font-size:22px">${bhd(pr)}<small>د.ب</small></span>${stepper('__item',itemQty,true)}</div></div>
   <div class="field"><label for="item-note">ملاحظة للمطبخ (اختياري)</label><textarea class="input" id="item-note" placeholder="مثلاً: بدون بصل، حار زيادة"></textarea></div>
-  <div class="sh-foot"><button class="btn btn-main btn-block" data-act="item-add" data-id="${id}" ${isAvail(id)?'':'disabled'}>${isAvail(id)?`أضف للسلة · <span class="num">${bhd(priceOf(id)*itemQty)}</span> د.ب`:'نفد اليوم'}</button></div>`;
+  <div class="sh-foot"><button class="btn btn-main btn-block" data-act="item-add" data-id="${id}" ${isAvail(id)&&(!m.pick||pickTotal()===m.pick)?'':'disabled'}>${!isAvail(id)?'نفد اليوم':m.pick&&pickTotal()<m.pick?`اختر ${m.pick-pickTotal()} أطباق بعد`:`أضف للسلة · <span class="num">${bhd(pr*itemQty)}</span> د.ب`}</button></div>`;
 }
-let checkout={type:'pickup',address:'',pay:'iban',receipt:null,errors:{}};
+let checkout={type:'pickup',address:'',area:'',pay:'iban',receipt:null,errors:{}};
 function sCart(){
  const c=cart(),B=BRANDS[brand],p=store.profile,e=checkout.errors;
  if(!c.length)return head('السلة')+`<div class="empty">${ic('bag',40)}<b>سلتك فاضية</b><span>أضف أطباقك من القائمة وبتظهر هنا.</span><button class="btn btn-soft" data-act="close-sheet">تصفّح القائمة</button></div>`;
  const fee=checkout.type==='delivery'?store.settings.fee:0;
  return head('سلتك')+`
-  <div class="sh-sec">${c.map((l,i)=>{const m=byId(l.id);return `<div class="line"><div class="thumb">${artBox(m)}</div><div class="meta"><b>${esc(m.name)}</b><small>${l.note?esc(l.note):bhd(priceOf(l.id))+' د.ب'}</small></div>
+  <div class="sh-sec">${c.map((l,i)=>{const m=byId(l.id);return `<div class="line"><div class="thumb">${artBox(m)}</div><div class="meta"><b>${esc(lineName(l))}</b><small>${l.note?esc(l.note):bhd(priceOf(l.id,l.sz))+' د.ب'}</small></div>
    <span class="stepper"><button data-act="linc" data-i="${i}" aria-label="زيادة">${ic('plus',16)}</button><span class="n num">${l.qty}</span><button data-act="ldec" data-i="${i}" aria-label="إنقاص">${ic('minus',16)}</button></span></div>`}).join('')}</div>
   <div class="sh-sec"><h3>طريقة الاستلام</h3>
    <div class="seg"><button data-act="otype" data-v="pickup" aria-pressed="${checkout.type==='pickup'}">${ic('store',18)}استلام من الفرع</button><button data-act="otype" data-v="delivery" aria-pressed="${checkout.type==='delivery'}">${ic('bike',18)}توصيل</button></div>
    <div class="field"><label>${checkout.type==='pickup'?'الفرع اللي بتستلم منه':'أقرب فرع لك'}</label>
     <div class="branches">${BRANCHES.map(([id,n])=>`<button data-act="pick-branch" data-v="${id}" aria-pressed="${p.branch===id}">${n}</button>`).join('')}</div>${e.branch?`<span class="err">${e.branch}</span>`:''}</div>
-   ${checkout.type==='delivery'?`<div class="field"><label for="c-addr">العنوان</label><textarea class="input${e.address?' bad':''}" id="c-addr" placeholder="رقم المجمع، الطريق، المبنى أو المنزل">${esc(checkout.address)}</textarea>${e.address?`<span class="err">${e.address}</span>`:''}</div>`:''}
+   ${checkout.type==='delivery'?`<div class="field"><label for="c-area">منطقة التوصيل</label><select class="input${e.area?' bad':''}" id="c-area"><option value="">اختر منطقتك</option>${AREAS.map(([g,l])=>`<optgroup label="${g}">${l.map(a=>`<option ${checkout.area===a?'selected':''}>${esc(a)}</option>`).join('')}</optgroup>`).join('')}</select>${e.area?`<span class="err">${e.area}</span>`:''}</div><div class="field"><label for="c-addr">العنوان</label><textarea class="input${e.address?' bad':''}" id="c-addr" placeholder="رقم المجمع، الطريق، المبنى أو المنزل">${esc(checkout.address)}</textarea>${e.address?`<span class="err">${e.address}</span>`:''}</div>`:''}
   </div>
   <div class="sh-sec"><h3>بياناتك</h3>
    <div class="row2"><div class="field"><label for="c-name">الاسم</label><input class="input${e.name?' bad':''}" id="c-name" autocomplete="name" value="${esc(p.name)}" placeholder="اسمك">${e.name?`<span class="err">${e.name}</span>`:''}</div>
@@ -768,6 +857,7 @@ function readCartForm(){
  if(n)store.profile.name=n.value.trim();
  if(ph)store.profile.phone=ph.value.replace(/[^\d]/g,'').replace(/^973/,'');
  if(ad)checkout.address=ad.value.trim();
+ const ar=$('#c-area');if(ar)checkout.area=ar.value;
  save();
 }
 function validateCart(){
@@ -775,6 +865,7 @@ function validateCart(){
  if(!p.branch)e.branch='اختر الفرع.';
  if(!p.name)e.name='اكتب اسمك عشان نناديك عند الاستلام.';
  if(!/^[136]\d{7}$/.test(p.phone))e.phone='رقم بحريني من 8 أرقام، مثل 33xxxxxx.';
+ if(checkout.type==='delivery'&&!checkout.area)e.area='اختر منطقة التوصيل.';
  if(checkout.type==='delivery'&&checkout.address.length<6)e.address='اكتب العنوان كامل.';
  checkout.errors=e;return !Object.keys(e).length;
 }
@@ -809,7 +900,7 @@ function sPay(){
 function submitOrder(){
  if(!checkout.receipt)return;
  store.seq++;
- const o={id:BRANDS[brand].px+'-'+store.seq,brand,items:cart().map(l=>({id:l.id,qty:l.qty,note:l.note})),type:checkout.type,branch:store.profile.branch,address:checkout.type==='delivery'?checkout.address:'',name:store.profile.name,phone:store.profile.phone,pay:checkout.pay,total:orderTotal(),receipt:checkout.receipt,status:'review',at:Date.now()};
+ const o={id:BRANDS[brand].px+'-'+store.seq,brand,items:cart().map(l=>({id:l.id,qty:l.qty,note:l.note,sz:l.sz||0})),type:checkout.type,branch:store.profile.branch,address:checkout.type==='delivery'?(checkout.area?checkout.area+' · ':'')+checkout.address:'',name:store.profile.name,phone:store.profile.phone,pay:checkout.pay,total:orderTotal(),receipt:checkout.receipt,status:'review',at:Date.now()};
  store.orders.unshift(o);store.mine.unshift(o.id);store.carts[brand]=[];
  if(store.orders.length>80)store.orders.length=80;
  if(!save()){toast('مساحة التخزين ممتلئة، احذف طلبات قديمة من لوحة الفرع');return}
@@ -829,7 +920,7 @@ function sTrack(id){
    <label class="drop" style="border-color:rgba(255,255,255,.25)"><span class="dz-ic">${ic('upload',22)}</span><div><b>ارفع إيصال جديد</b><small>بنرجع نراجعه فوراً</small></div><input type="file" data-reupload="${o.id}" accept="image/*" aria-label="رفع إيصال جديد"></label></div></div>`
   :`<div class="sh-sec" style="border:0"><ol class="steps">${FLOW.map((s,i)=>`<li class="${i<idx||o.status==='done'?'done':i===idx?'now':''}"><span class="dot">${i<idx||o.status==='done'?ic('check',16):ic(['clock','check','chef','bag','check'][i],16)}</span><div><b>${lbl[s]}</b>${i===idx?`<small>${sub[s]}</small>`:''}</div></li>`).join('')}</ol></div>`}
   <div class="sh-sec"><h3>التفاصيل</h3>
-   ${o.items.map(l=>{const m=byId(l.id);return `<div class="sum"><span>${l.qty} × ${esc(m.name)}${l.note?` <small style="color:var(--dim)">(${esc(l.note)})</small>`:''}</span><span class="num">${bhd(l.qty*priceOf(l.id))}</span></div>`}).join('')}
+   ${o.items.map(l=>`<div class="sum"><span>${l.qty} × ${esc(lineName(l))}${l.note?` <small style="color:var(--dim)">(${esc(l.note)})</small>`:''}</span><span class="num">${bhd(l.qty*priceOf(l.id,l.sz))}</span></div>`).join('')}
    <div class="sum total"><span>الإجمالي</span><span class="num">${bhd(o.total)} د.ب</span></div>
    <div class="sum"><span>${o.type==='delivery'?'توصيل إلى':'استلام من'}</span><span>${o.type==='delivery'?esc(o.address):'فرع '+branchName(o.branch)}</span></div>
    <div class="sum"><span>الدفع</span><span>${o.pay==='iban'?'تحويل آيبان':'BenefitPay'} · ${clock(o.at)}</span></div>
@@ -881,7 +972,7 @@ function oCard(o){
   <div class="o-who"><b>${esc(o.name)}</b><span class="ltr" style="justify-content:flex-end;user-select:all">+973 ${esc(o.phone)}</span>
    <span>${ic(o.type==='delivery'?'bike':'store',15)}${o.type==='delivery'?'توصيل · '+esc(o.address):'استلام · فرع '+branchName(o.branch)}</span>
    <span>${ic('clock',15)}${clock(o.at)} · ${timeAgo(o.at)}</span></div>
-  <ul class="o-items">${o.items.map(l=>{const m=byId(l.id);return `<li><span class="q">${l.qty}×</span><span>${esc(m.name)}${l.note?`<span class="nt">${esc(l.note)}</span>`:''}</span></li>`}).join('')}</ul>
+  <ul class="o-items">${o.items.map(l=>{return `<li><span class="q">${l.qty}×</span><span>${esc(lineName(l))}${l.note?`<span class="nt">${esc(l.note)}</span>`:''}</span></li>`}).join('')}</ul>
   <div class="o-pay">${o.receipt?`<button class="rc" data-act="view-rc" data-id="${o.id}" aria-label="عرض الإيصال"><img src="${o.receipt}" alt=""><span>الإيصال</span></button>`:`<span class="rc" style="display:grid;place-items:center;color:var(--dim)">${ic('image')}</span>`}
    <div><span class="amt">${bhd(o.total)} د.ب</span><small>${o.pay==='iban'?'تحويل آيبان':'BenefitPay'} · المرجع ${o.id}</small></div></div>
   ${o.status==='rejected'&&o.reason?`<div class="alert" style="padding:10px 12px;font-size:13px">${esc(o.reason)}</div>`:''}
@@ -896,7 +987,7 @@ store.orders.forEach(o=>seen.add(o.id));
 function sSettings(){
  const S=store.settings;
  const rows=MENU.filter(m=>m.b===edBrand).map(m=>{const e=store.menuEdits[m.id]||{};return `<div class="ed-row"><div>${artBox(m)}</div>
-  <div><div class="nm">${esc(m.name)}</div><div class="ctrls"><input class="input num ltr" type="number" step="0.050" min="0" id="pr-${m.id}" data-price="${m.id}" value="${bhd(priceOf(m.id))}" aria-label="سعر ${esc(m.name)}">
+  <div><div class="nm">${esc(m.name)}</div><div class="ctrls">${(m.sizes?[0,1,2]:[0]).map(i=>`<input class="input num ltr" type="number" step="0.050" min="0" id="pr-${m.id}-${i}" data-price="${m.id}" data-sz="${i}" value="${bhd(priceOf(m.id,i))}" aria-label="سعر ${esc(m.name)}${m.sizes?' '+SIZES[i][0]:''}" ${m.sizes?`title="${SIZES[i][0]}" placeholder="${SIZES[i][0]}"`:''} style="width:${m.sizes?84:100}px">`).join('')}
    <span class="mini">${ic('image',15)}${e.photo?'تغيير الصورة':'رفع صورة'}<input type="file" accept="image/*" data-photo="${m.id}" aria-label="صورة ${esc(m.name)}"></span>
    ${e.photo?`<button class="mini" data-act="rm-photo" data-id="${m.id}">إزالة</button>`:''}</div></div>
   <button class="switch" role="switch" aria-checked="${isAvail(m.id)}" data-act="avail" data-id="${m.id}" aria-label="${esc(m.name)} متوفر"></button></div>`}).join('');
@@ -909,8 +1000,8 @@ function sSettings(){
    <div class="field"><label for="s-fee">رسوم التوصيل (د.ب)</label><input class="input ltr num" id="s-fee" type="number" step="0.100" min="0" value="${bhd(S.fee)}" style="text-align:right"></div></div>
    <div class="field"><label for="s-pin">رمز دخول اللوحة</label><input class="input ltr num" id="s-pin" inputmode="numeric" maxlength="6" value="${esc(S.pin)}" style="text-align:right"></div>
    <button class="btn btn-main" data-act="save-settings">حفظ بيانات الدفع</button></div>
-  <div class="sh-sec"><h3>القائمة: الأسعار والصور والتوفر</h3>
-   <div class="seg"><button data-act="ed-brand" data-v="fareeq" aria-pressed="${edBrand==='fareeq'}">فريق بن عاقول</button><button data-act="ed-brand" data-v="buns" aria-pressed="${edBrand==='buns'}">جست بنز</button></div>
+  <div class="sh-sec"><h3>القائمة: الأسعار والصور والتوفر</h3><span class="hint">للأطباق ذات الأحجام: الخانات بالترتيب صغير، وسط، كبير.</span>
+   <div class="seg"><button data-act="ed-brand" data-v="fareeq" aria-pressed="${edBrand==='fareeq'}">فريج بن عاقول</button><button data-act="ed-brand" data-v="buns" aria-pressed="${edBrand==='buns'}">جست بنز</button></div>
    <div>${rows}</div></div>
   <div class="sh-sec"><h3>الطلبات التجريبية</h3><button class="btn btn-soft" data-act="clear-samples">حذف طلبات المثال</button></div>`;
 }
@@ -926,11 +1017,14 @@ document.addEventListener('click',async e=>{
   case 'branch':openSheet('branch');break;
   case 'set-branch':store.profile.branch=v;save();closeSheet();renderMenu();toast('فرع '+branchName(v));break;
   case 'cat':{const s=$('#sec-'+t.dataset.cat);if(s)s.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});break}
-  case 'item':itemQty=1;openSheet('item',id);break;
+  case 'item':itemQty=1;itemSz=0;itemPicks={};openSheet('item',id);break;
+  case 'pinc':{const m=byId(sheetArg);if(pickTotal()<m.pick){itemPicks[v]=(itemPicks[v]||0)+1;const st=$('.sheet').scrollTop;renderSheet();$('.sheet').scrollTop=st}break}
+  case 'pdec':{itemPicks[v]=Math.max(0,(itemPicks[v]||0)-1);if(!itemPicks[v])delete itemPicks[v];const st=$('.sheet').scrollTop;renderSheet();$('.sheet').scrollTop=st;break}
+  case 'isz':itemSz=+v;renderSheet();break;
   case 'add':addToCart(id,1,'',t);break;
   case 'inc':if(id==='__item'){itemQty=Math.min(20,itemQty+1);renderSheet()}else changeQty(id,1);break;
   case 'dec':if(id==='__item'){itemQty=Math.max(1,itemQty-1);renderSheet()}else changeQty(id,-1);break;
-  case 'item-add':{const note=($('#item-note')||{}).value||'';closeSheet();setTimeout(()=>addToCart(id,itemQty,note.trim(),$(`.card[data-id="${id}"] .art`)),RM?0:330);break}
+  case 'item-add':{const m0=byId(id);if(m0.pick&&pickTotal()!==m0.pick)break;let note=(($('#item-note')||{}).value||'').trim();if(m0.pick)note='الأطباق: '+pickNote(m0)+(note?' · '+note:'');closeSheet();{const sz=byId(id).sizes?itemSz:0;setTimeout(()=>addToCart(id,itemQty,note.trim(),$(`.card[data-id="${id}"] .art`),sz),RM?0:330)}break}
   case 'cart':checkout.errors={};openSheet('cart');break;
   case 'linc':case 'ldec':{readCartForm();const c=cart(),l=c[+t.dataset.i];l.qty+=a==='linc'?1:-1;if(l.qty<=0)c.splice(+t.dataset.i,1);save();renderSheet();refreshCard(l.id);renderCartBar();break}
   case 'otype':readCartForm();checkout.type=v;renderSheet();break;
@@ -966,7 +1060,7 @@ document.addEventListener('change',async e=>{
  if(t.id==='rc-file'&&t.files[0]){try{checkout.receipt=await compress(t.files[0],1100,.72);renderSheet();toast('تم إرفاق الإيصال')}catch(err){toast('اختر صورة (JPG أو PNG) للإيصال')}return}
  if(t.dataset.reupload&&t.files[0]){try{const o=store.orders.find(x=>x.id===t.dataset.reupload);o.receipt=await compress(t.files[0],1100,.72);o.status='review';o.reason='';save();renderSheet();toast('وصلنا الإيصال الجديد')}catch(err){toast('اختر صورة للإيصال')}return}
  if(t.dataset.photo&&t.files[0]){try{const ed=store.menuEdits[t.dataset.photo]=store.menuEdits[t.dataset.photo]||{};ed.photo=await compress(t.files[0],720,.8);if(!save()){delete ed.photo;toast('الصورة كبيرة على مساحة التخزين')}renderSheet()}catch(err){toast('اختر ملف صورة')}return}
- if(t.dataset.price){const n=parseFloat(t.value);if(n>=0){const ed=store.menuEdits[t.dataset.price]=store.menuEdits[t.dataset.price]||{};ed.price=Math.round(n*1000)/1000;save();toast('تم تحديث السعر')}return}
+ if(t.dataset.price){const n=parseFloat(t.value);if(n>=0){const id=t.dataset.price,m=byId(id),ed=store.menuEdits[id]=store.menuEdits[id]||{},v=Math.round(n*1000)/1000;if(m.sizes){const a=priceArr(id).slice();a[+t.dataset.sz]=v;ed.price=a}else ed.price=v;save();toast('تم تحديث السعر')}return}
 });
 document.addEventListener('submit',e=>{
  if(e.target.id!=='gate')return;e.preventDefault();
