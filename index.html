@@ -29,6 +29,19 @@ body[data-brand="buns"]{--gold:#ffc21a}
 *{box-sizing:border-box}
 html,body{height:100%}
 html{direction:rtl}
+html[dir=ltr]{direction:ltr}
+[dir=ltr] .tag-hot{right:auto;left:10px}
+[dir=ltr] .badge{left:auto;right:-2px}
+[dir=ltr] .add-n{left:auto;right:-6px}
+[dir=ltr] .steps li::before{right:auto;left:16px}
+[dir=ltr] .switch::after{right:auto;left:3px}
+[dir=ltr] .switch[aria-checked="true"]::after{transform:translateX(20px)}
+[dir=ltr] .track-id{text-align:left}
+.lang-btn{width:auto;min-width:44px;padding:0 12px;border-radius:999px;font-weight:700;font-size:14px;letter-spacing:.02em}
+.lang-btn .l-ar{font-family:var(--display);font-size:20px;font-weight:400;line-height:1}
+.top-actions{display:flex;gap:8px;align-items:center}
+#app{transition:opacity .22s ease}
+#app.swap{opacity:0}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
 ::selection{background:var(--accent);color:var(--on-accent)}
@@ -376,7 +389,11 @@ textarea.input{min-height:76px;resize:vertical}
 <script>
 (function(){
 "use strict";
-document.documentElement.lang="ar";document.documentElement.dir="rtl";
+let lang='ar';try{const s=localStorage.getItem('fbq-lang');if(s==='en'||s==='ar')lang=s}catch(e){}
+const L=(a,e)=>lang==='en'?e:a;
+const CUR=()=>L('د.ب','BHD');
+function setDir(){document.documentElement.lang=lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';document.title=L('طلبات فريج وبنز','Fareeq & Buns Orders')}
+setDir();
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -407,7 +424,7 @@ const I={
  chef:'<path d="M7 14a4 4 0 1 1 1.5-7.7A4 4 0 0 1 16 5.2 4 4 0 1 1 17 14v6H7v-6zM7 17h10"/>',
  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'
 };
-const ic=(n,s=20)=>`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
+const ic=(n0,s=20)=>{const n=lang==="en"&&(n0==="back"||n0==="fwd")?(n0==="back"?"fwd":"back"):n0;return `<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`};
 $('#viewer .icon-btn').innerHTML=ic('x',22);
 
 /* ---------------- food illustrations ---------------- */
@@ -607,15 +624,36 @@ const MENU=[
  {id:'b8',b:'buns',cat:'drinks',name:'كولا',desc:'مشروب غازي بارد.',price:.4,hue:'#e3412b',art:{t:'cup',c:'#2a1611'}},
  {id:'b9',b:'buns',cat:'drinks',name:'ميلك شيك فراولة',desc:'حليب وآيس كريم وفراولة مع كريمة.',price:1.4,hue:'#f58bb0',art:{t:'cup',c:'#f58bb0',shake:1,band:'#fff0f6',dot:'#d81f3a'}}
 ];
+const MENU_EN={"e8": ["Egg & Cheese", "Soft scrambled eggs with melted grated cheese."], "e1": ["Eggs Bin Aqool", "Omelette topped with spiced keema, tomato and coriander."], "e4": ["Eggs & Vegetables", "Omelette with fried potato, tomato and green pepper."], "f3": ["Egg & Tomato", "Scrambled eggs with slow-cooked tomato."], "es": ["Egg Shakshoka", "Omelette with onion and tomato."], "e7": ["Fried Eggs", "Plain omelette."], "e5": ["Beans & Egg", "Scrambled eggs with beans in tomato sauce."], "e6": ["Egg Ayoon", "Sunny-side-up eggs with salt and black pepper."], "n1": ["Nakhi", "Boiled chickpeas with salt and hot red chili."], "f2": ["Bagela", "Boiled fava beans with salt and cumin, finished with lemon."], "t3": ["Daal", "Lentils cooked with spices."], "t4": ["Looba", "Boiled black-eyed beans with salt."], "t5": ["Nakhi Bin Aqool", "Chickpeas with dried red chili, Bin Aqool style."], "t6": ["Shila", "Traditional Bahraini shila."], "m1": ["Meat Liver", "Lamb liver with onion, potato, peppers and coriander."], "m2": ["Chicken Liver", "Chicken liver with potato, eggplant and green chili."], "m3": ["Beans", "Beans cooked in tomato sauce."], "m4": ["Foul", "Slow-cooked fava beans with cumin and ghee."], "m5": ["Foul & Cheese", "Foul topped with cheese."], "m6": ["Keema & Potato", "Minced meat with potato and peas."], "m7": ["Meat Maglag", "Pan-tossed lamb with onion, tomato and peppers."], "m8": ["Meat Saloona", "Lamb stew with potato, chickpeas and dried lime."], "m9": ["Chicken Saloona", "Shredded chicken with chickpeas and spices."], "m10": ["Vegetable Saloona", "Okra, pumpkin, carrot, potato and zucchini."], "m11": ["Shrimp Saloona", "Shrimp in tomato and coriander sauce."], "m12": ["White Rice", "Basmati with fried onion, raisins and cardamom."], "s1": ["Falafel", "Crispy falafel."], "s2": ["Grated Cheese", "Grated cheese with one bread."], "s3": ["Mahyawa Bread", "Tanoor bread with mahyawa."], "s4": ["Cheese Mahyawa Bread", "Mahyawa bread with cheese."], "s5": ["Cheese & Egg Mahyawa Bread", "Mahyawa bread with cheese and egg."], "s6": ["White Bread", "White bread from the tanoor."], "s7": ["Brown Bread", "Brown bread from the tanoor."], "s8": ["Vegetables Kebab", "Traditional vegetable kebab."], "s9": ["Cheese Sambousa", "Crispy sambousa filled with cheese."], "s10": ["Cream Cheese", "Cream cheese pack."], "s11": ["Yogurt", "Fresh natural yogurt."], "w1": ["Fateeta", "Bahraini fateeta with sugar and cardamom."], "f4": ["Aseeda", "Aseeda with ghee and cardamom."], "f1": ["Balaleet", "Sweet cardamom vermicelli with omelette."], "w2": ["Luqaimat", "Crispy dumplings with date syrup and sesame."], "x1": ["Small Family Box", "Pick any 3 dishes from the menu in one box."], "x2": ["Large Family Box", "Pick any 6 dishes from the menu, with bread."], "f11": ["Karak Tea", "Karak with milk and cardamom."], "d2": ["Red Tea", "Black tea with cardamom."], "d3": ["Saffron Drink", "Saffron drink."], "d4": ["Rose Drink", "Rose drink."], "d5": ["Aquafina Water", "600 ml bottle."], "p1": ["Pepsi", "Cold 330 ml can."], "p2": ["Diet Pepsi", "Cold 330 ml can."], "p3": ["7UP", "Cold 330 ml can."], "p4": ["7UP Free", "Cold 330 ml can."], "p5": ["Mirinda Orange", "Cold 330 ml can."], "p6": ["Mirinda Citrus", "Cold 330 ml can."], "p7": ["Mountain Dew", "Cold 330 ml can."], "p8": ["Shani", "Cold 330 ml can."], "j1": ["Egg & Cheese Bun", "Soft omelette and melted cheese in a butter-toasted brioche."], "j2": ["Tuna Bun", "Tuna mayo with crisp lettuce."], "j3": ["Turkey & Egg Bun", "Turkey slice, sunny egg and house sauce."], "j4": ["Chicken Salad Bun", "Shredded chicken mayo with lettuce."], "j5": ["Egg & Beef Bacon Bun", "Scrambled egg, crispy beef bacon and onion."], "j6": ["Crispy Chicken Bun", "Crispy chicken breast with mayo and lettuce."], "j7": ["Scrambled Egg Bun", "Soft scrambled egg, spring onion and house sauce."], "j8": ["Balaleet Bun", "Saffron balaleet with omelette and cheese in brioche."], "j9": ["Mushroom & Turkey Bun", "Scrambled egg with mushroom and turkey slices."], "r2": ["Hash Browns", "Two crispy potato hash browns."], "r1": ["Cheese Rolls", "Crispy cheese-filled rolls, boxed."], "k2": ["2 Buns Box", "Pick any 2 buns."], "k3": ["3 Buns Box", "Pick any 3 buns in one box."], "k9": ["Party Box", "Pick 9 buns for the office or a gathering."], "b8": ["Cola", "Cold soft drink."], "b9": ["Strawberry Milkshake", "Milk, ice cream and strawberries with cream."]};
+const BR_EN={aali:'Aali',hamad:'Hamad Town',jeblat:'Jeblat Hebshi',malikya:'Malkiya',muharraq:'Muharraq',saar:'Saar',sanad:'Sanad',sitra:'Sitra',zinj:'Zinj'};
+const CAT_EN={fareeq:{eggs:'Eggs',trad:'Traditional',mains:'Main Course',sides:'Sides & Bread',sweets:'Sweets',boxes:'Bin Aqool Boxes',drinks:'Drinks'},buns:{buns:'Buns',sides:'Sides',boxes:'Boxes',drinks:'Drinks'}};
+const BRAND_EN={fareeq:{ar:'Fareeq Bin Aqool',tag:'Bahraini breakfast and home cooking, from the fareej to your door',hero:'Bahraini breakfast, the way you know it',sub:'Eggs Bin Aqool, nakhi, bagela and hot mahyawa bread, with karak to set the mood.'},buns:{ar:'Just Buns',tag:'Brioche buns for breakfast and work, boxed to go',hero:'Sun’s out.. Buns out!',sub:'Butter-toasted brioche filled with egg, cheese, tuna and turkey.'}};
+const GOV_EN=['Capital Governorate','Muharraq Governorate','Northern Governorate','Southern Governorate'];
+MENU.forEach(m=>{m._ar=[m.name,m.desc]});
+BRANCHES.forEach(b=>{b[2]=b[1]});
+Object.values(BRANDS).forEach(B=>{B._ar={ar:B.ar,tag:B.tag,hero:B.hero,sub:B.sub,cats:B.cats.map(c=>c[1])}});
+const SIZES_AR=[['صغير','خبزتين'],['وسط','3 خبزات'],['كبير','4 خبزات']],SIZES_EN=[['Small','2 breads'],['Medium','3 breads'],['Large','4 breads']];
+const STATUS_AR={review:'بانتظار التحقق من الدفع',confirmed:'تم تأكيد الدفع',preparing:'قيد التحضير',ready:'جاهز',done:'تم التسليم',rejected:'الدفع مرفوض'},STATUS_EN={review:'Waiting for payment check',confirmed:'Payment confirmed',preparing:'Preparing',ready:'Ready',done:'Delivered',rejected:'Payment rejected'};
+const SHORT_AR={review:'بانتظار التحقق',confirmed:'مؤكد',preparing:'قيد التحضير',ready:'جاهز',done:'مكتمل',rejected:'مرفوض'},SHORT_EN={review:'To verify',confirmed:'Confirmed',preparing:'Preparing',ready:'Ready',done:'Completed',rejected:'Rejected'};
+let SIZES=SIZES_AR,STATUS=STATUS_AR,STATUS_SHORT=SHORT_AR,AREAS;
+function applyLang(){
+ const en=lang==='en';
+ MENU.forEach(m=>{const e=MENU_EN[m.id];[m.name,m.desc]=en&&e?e:m._ar});
+ BRANCHES.forEach(b=>{b[1]=en?BR_EN[b[0]]:b[2]});
+ Object.entries(BRANDS).forEach(([k,B])=>{const s=en?BRAND_EN[k]:B._ar;B.ar=s.ar;B.tag=s.tag;B.hero=s.hero;B.sub=s.sub;B.cats.forEach((c,i)=>{c[1]=en?CAT_EN[k][c[0]]:B._ar.cats[i]})});
+ SIZES=en?SIZES_EN:SIZES_AR;STATUS=en?STATUS_EN:STATUS_AR;STATUS_SHORT=en?SHORT_EN:SHORT_AR;
+ AREAS=AREAS_ALL.map(([g,l],i)=>[en?GOV_EN[i]:g,l]);
+ setDir();
+}
 const byId=id=>MENU.find(m=>m.id===id);
-const SIZES=[['صغير','خبزتين'],['وسط','3 خبزات'],['كبير','4 خبزات']];
 const priceArr=id=>{const m=byId(id),e=store.menuEdits[id];if(m.sizes){return (e&&Array.isArray(e.price)&&e.price.length===3)?e.price:m.price}return [(e&&typeof e.price==='number')?e.price:m.price]};
 const priceOf=(id,sz)=>{const a=priceArr(id);return a[sz||0]??a[0]};
 const lineName=l=>{const m=byId(l.id);return m.name+(m.sizes?' · '+SIZES[l.sz||0][0]:'')};
-const AREAS=[['محافظة العاصمة','Abu Bham|Adhari|Adliya|Al Fateh|Al Nasfa|Al Qufool|Al Salihiyah|Alsuwayfiyah|Awadhiya|Bahrain Bay|Bu Ashira|Bu Ghazal|Burhama|Diplomatic Area|Ghuraifa|Gudaibiya|Gufool|Hoora|Jidd Ali|Jirdab|Juffair|Jurdab|Karbabad|Khamis|Mahooz|Manama City|Mina Salman|Nabih Saleh|Noaim|Ras Rumman|Reef Island|Salhiya|Salmaniya|Sanabis|Sanad|Seef|Sihla (South)|Sugaya|Tubli|Um Al Hassam|Zinj'],
+const AREAS_ALL=[['محافظة العاصمة','Abu Bham|Adhari|Adliya|Al Fateh|Al Nasfa|Al Qufool|Al Salihiyah|Alsuwayfiyah|Awadhiya|Bahrain Bay|Bu Ashira|Bu Ghazal|Burhama|Diplomatic Area|Ghuraifa|Gudaibiya|Gufool|Hoora|Jidd Ali|Jirdab|Juffair|Jurdab|Karbabad|Khamis|Mahooz|Manama City|Mina Salman|Nabih Saleh|Noaim|Ras Rumman|Reef Island|Salhiya|Salmaniya|Sanabis|Sanad|Seef|Sihla (South)|Sugaya|Tubli|Um Al Hassam|Zinj'],
  ['محافظة المحرق','Al Dair|Al Jowder|Amwaj|Arad|Busaiteen|Diyar Al-Muharraq|Galali|Gumra|Halat Bu Maher|Hidd|Hidd Industrial Area|Muharraq|Samaheej'],
  ['المحافظة الشمالية','Aali|Abu Quwah|Abu Saiba|Ain Aldaar|Al Daih|Al Hajar|Al Kawara|Al Lawzi|Al Markh|Al Musalla|Al Qadam|Al Qala|Bani Jamra|Barbar|Bilad Alqadeem|Boori|Budaiya|Buquwa|Dar Kulaib|Dumistan|Duraz|Hamad Town|Hamad Town (1-10)|Hamad Town (1-2)|Hamad Town (1-6)|Hamad Town (3-22)|Hamala|Hillat Abdul Saleh|Hoarat A\'ali|Jabalat Habshi|Janabiya|Jannusan|Jasra|Jid Al-Haj|Jidhafs|Karrana|Karzakan|Malikiya|Maqaba|Maqsha|Muqsha|Northern City|Qurayya|Qurriyah|Saar|Sadad|Salmabad|Salman City|Sehla|Shahrakan|Shakhura|Sihla (North)|Tashan'],
  ['المحافظة الجنوبية','Al Buhair|Al Dur|Al Safriyah|Alareen|Alhajiyat|Askar|Awali|Bu Kowarah|Durrat Al Bahrain|Eker (East)|Eker (West)|Isa Town|Jary Al Shaikh|Jaww|Jazaair Beach|Maameer|Mazrowiah|Nuwaidrat|Riffa|Riffa - East|Riffa - West|Riffa Views|Safra|Sakhir|Sitra|Sitra - Abu AlAish|Sitra - Al Kharjiya|Sitra - Markuban|Sitra - Muhazza|Sitra - Sufala|Sitra - Um Al Baidh|Sitra - Wadiyan|Sitra Al Gharya|Wadi Alsail|Zallaq|Zayed Town']].map(([g,l])=>[g,l.split('|')]);
+applyLang();
 const isAvail=id=>{const e=store.menuEdits[id];return !(e&&e.off)};
 
 /* ---------------- store ---------------- */
@@ -651,8 +689,8 @@ async function copy(text,btn){
  try{await navigator.clipboard.writeText(text);ok=true}catch(e){
   const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{ok=document.execCommand('copy')}catch(_){}ta.remove();
  }
- if(btn){btn.classList.add('done');btn.innerHTML=ic('check',16)+(ok?'تم النسخ':'حدّد وانسخ');setTimeout(()=>{btn.classList.remove('done');btn.innerHTML=ic('copy',16)+'نسخ'},1800)}
- if(!ok)toast('انسخ النص يدوياً من الشاشة');
+ if(btn){btn.classList.add('done');btn.innerHTML=ic('check',16)+(ok?L('تم النسخ','Copied'):L('حدّد وانسخ','Select & copy'));setTimeout(()=>{btn.classList.remove('done');btn.innerHTML=ic('copy',16)+L('نسخ','Copy')},1800)}
+ if(!ok)toast(L('انسخ النص يدوياً من الشاشة','Copy the text manually from the screen'));
 }
 function blurWords(el){
  const g=G();const txt=el.textContent.trim();
@@ -670,15 +708,14 @@ function compress(file,maxW,q){
  });
 }
 const fmtIban=s=>String(s).replace(/\s+/g,'').replace(/(.{4})/g,'$1 ').trim();
-const timeAgo=t=>{const d=Math.max(0,Math.round((Date.now()-t)/60000));return d<1?'الآن':d<60?`قبل ${d} د`:d<1440?`قبل ${Math.round(d/60)} س`:new Date(t).toLocaleDateString('ar-BH-u-nu-latn')};
-const clock=t=>new Date(t).toLocaleTimeString('ar-BH-u-nu-latn',{hour:'numeric',minute:'2-digit'});
-const STATUS={review:'بانتظار التحقق من الدفع',confirmed:'تم تأكيد الدفع',preparing:'قيد التحضير',ready:'جاهز',done:'تم التسليم',rejected:'الدفع مرفوض'};
-const STATUS_SHORT={review:'بانتظار التحقق',confirmed:'مؤكد',preparing:'قيد التحضير',ready:'جاهز',done:'مكتمل',rejected:'مرفوض'};
+const timeAgo=t=>{const d=Math.max(0,Math.round((Date.now()-t)/60000));return d<1?L('الآن','now'):d<60?L(`قبل ${d} د`,`${d} min ago`):d<1440?L(`قبل ${Math.round(d/60)} س`,`${Math.round(d/60)} h ago`):new Date(t).toLocaleDateString(L('ar-BH-u-nu-latn','en-GB'))};
+const clock=t=>new Date(t).toLocaleTimeString(L('ar-BH-u-nu-latn','en-GB'),{hour:'numeric',minute:'2-digit'});
 const chip=s=>`<span class="chip st-${s}">${STATUS_SHORT[s]}</span>`;
 
 /* ---------------- routing ---------------- */
 let brand=null, view='start';
 function route(){
+ const sw=document.getElementById('sheet-wrap');if(sw&&!sw.hidden){sw.hidden=true;sheetKind=null;document.getElementById('sheet-body').innerHTML=''}
  const h=location.hash.replace('#','');
  if(h==='board'){show('board');return}
  if(h==='fareeq'||h==='buns'){brand=h;show('menu');return}
@@ -701,15 +738,15 @@ function renderStart(){
   <a class="brand-tile" href="#${b}" style="--tile-accent:${B.accent};text-decoration:none;color:inherit">
    ${B.tile?`<div class="art"><img src="${B.tile}" alt="${esc(B.ar)}"></div>`:artBox(hero)}
    <div class="bt-body"><span class="bt-en">${B.en}</span><h2>${B.ar}</h2><p>${B.tag}</p>
-   <span class="go">اطلب الآن ${ic('fwd',18)}</span></div></a>`};
+   <span class="go">${L('اطلب الآن','Order now')} ${ic('fwd',18)}</span></div></a>`};
  const myCount=store.mine.filter(id=>{const o=store.orders.find(x=>x.id===id);return o&&!['done','rejected'].includes(o.status)}).length;
  $('#v-start').innerHTML=`
   <div class="start-bg" aria-hidden="true"></div>
-  <div class="wrap start-top"><div class="top-logos"><a class="logo-link" href="#fareeq" aria-label="قائمة فريج بن عاقول"><img class="top-logo" src="img/fba-logo.png" alt="فريج بن عاقول"></a><span class="logo-sep" aria-hidden="true"></span><a class="logo-link" href="#buns" aria-label="قائمة جست بنز"><img class="top-logo jb" src="img/jb-logo.png" alt="Just Buns"></a></div>
-   <button class="icon-btn" data-act="mine" aria-label="طلباتي">${ic('receipt')}${myCount?`<span class="badge">${myCount}</span>`:''}</button></div>
-  <div class="wrap start-hero"><h1 id="start-h">شنو بتاكل اليوم؟</h1><p>اختر المطعم، اطلب من جوالك، وادفع بتحويل آيبان أو BenefitPay. نجهّز طلبك أول ما نتأكد من التحويل.</p></div>
+  <div class="wrap start-top"><div class="top-logos"><a class="logo-link" href="#fareeq" aria-label="${L('قائمة فريج بن عاقول','Fareeq Bin Aqool menu')}"><img class="top-logo" src="img/fba-logo.png" alt="${L('فريج بن عاقول','Fareeq Bin Aqool')}"></a><span class="logo-sep" aria-hidden="true"></span><a class="logo-link" href="#buns" aria-label="${L('قائمة جست بنز','Just Buns menu')}"><img class="top-logo jb" src="img/jb-logo.png" alt="Just Buns"></a></div>
+   <div class="top-actions"><button class="icon-btn lang-btn" data-act="lang" aria-label="${L('Switch to English','التبديل إلى العربية')}">${lang==='en'?'<span class="l-ar">ع</span>':'EN'}</button><button class="icon-btn" data-act="mine" aria-label="${L('طلباتي','My orders')}">${ic('receipt')}${myCount?`<span class="badge">${myCount}</span>`:''}</button></div></div>
+  <div class="wrap start-hero"><h1 id="start-h">${L('شنو بتاكل اليوم؟','What are you craving today?')}</h1><p>${L('اختر المطعم، اطلب من جوالك، وادفع بتحويل آيبان أو BenefitPay. نجهّز طلبك أول ما نتأكد من التحويل.','Pick a restaurant, order from your phone, and pay by IBAN transfer or BenefitPay. We start cooking as soon as the transfer is confirmed.')}</p></div>
   <div class="wrap brands">${tile('fareeq')}${tile('buns')}</div>
-  <div class="wrap start-foot"><span>تسعة فروع في البحرين · الأسعار بالدينار البحريني</span><a class="btn-ghost" href="#board" style="display:inline-flex;align-items:center;gap:6px;color:var(--dim)">${ic('lock',16)}لوحة الفرع</a></div>`;
+  <div class="wrap start-foot"><span>${L('تسعة فروع في البحرين · الأسعار بالدينار البحريني','Nine branches across Bahrain · Prices in Bahraini dinar')}</span><a class="btn-ghost" href="#board" style="display:inline-flex;align-items:center;gap:6px;color:var(--dim)">${ic('lock',16)}${L('لوحة الفرع','Branch board')}</a></div>`;
  blurWords($('#start-h'));
  const g=G();if(g)g.from('.brand-tile',{y:40,opacity:0,duration:.9,stagger:.12,ease:'expo.out',delay:.15});
 }
@@ -727,20 +764,21 @@ function renderMenu(){
  const secs=B.cats.map(([cid,cname])=>{
   const list=items.filter(m=>m.cat===cid);
   const lead=first;first=false;const rest=list.length-(lead?1:0);
-  return `<section class="m-sec" id="sec-${cid}" data-cat="${cid}"><h2>${cname}<small>${list.length>2?list.length+' أصناف':list.length===2?'صنفان':'صنف واحد'}</small></h2><div class="grid">${list.map((m,i)=>cardHTML(m,(lead&&i===0)||(rest%2===1&&i===list.length-1&&!(lead&&i===0)))).join('')}</div></section>`;
+  return `<section class="m-sec" id="sec-${cid}" data-cat="${cid}"><h2>${cname}<small>${lang==='en'?list.length+(list.length===1?' item':' items'):list.length>2?list.length+' أصناف':list.length===2?'صنفان':'صنف واحد'}</small></h2><div class="grid">${list.map((m,i)=>cardHTML(m,(lead&&i===0)||(rest%2===1&&i===list.length-1&&!(lead&&i===0)))).join('')}</div></section>`;
  }).join('');
  $('#v-menu').innerHTML=`
   <header class="m-head"><div class="wrap">
    <div class="row">
-    <a class="icon-btn" href="#" aria-label="رجوع لاختيار المطعم">${ic('back')}</a>
+    <a class="icon-btn" href="#" aria-label="${L('رجوع لاختيار المطعم','Back to restaurants')}">${ic('back')}</a>
     <div class="m-brand">${B.mark?`<img class="m-logo" src="${B.mark}" alt="${B.ar}">`:`<small>${B.en}</small><b>${B.ar}</b>`}</div>
-    <button class="branch-chip" data-act="branch">${ic('pin',16)}<span>${br?branchName(br):'اختر الفرع'}</span></button>
-    <button class="icon-btn" data-act="mine" aria-label="طلباتي">${ic('receipt')}</button>
+    <button class="branch-chip" data-act="branch">${ic('pin',16)}<span>${br?branchName(br):L('اختر الفرع','Choose branch')}</span></button>
+    <button class="icon-btn lang-btn" data-act="lang" aria-label="${L('Switch to English','التبديل إلى العربية')}">${lang==='en'?'<span class="l-ar">ع</span>':'EN'}</button>
+    <button class="icon-btn" data-act="mine" aria-label="${L('طلباتي','My orders')}">${ic('receipt')}</button>
    </div>
-   <nav class="cats" aria-label="الأقسام">${B.cats.map(([c,n],i)=>`<button class="cat" data-act="cat" data-cat="${c}" aria-current="${i===0}">${n}</button>`).join('')}</nav>
+   <nav class="cats" aria-label="${L('الأقسام','Categories')}">${B.cats.map(([c,n],i)=>`<button class="cat" data-act="cat" data-cat="${c}" aria-current="${i===0}">${n}</button>`).join('')}</nav>
   </div></header>
   <div class="wrap">
-   <div class="m-hero">${B.banner?`<div class="m-banner"><img src="${B.banner}" alt="بوكسات ${esc(B.ar)}"></div>`:''}<h1 id="menu-h"${/^[A-Za-z]/.test(B.hero)?' dir="ltr" style="text-align:right"':''}>${B.hero}</h1><p>${B.sub}</p></div>
+   <div class="m-hero">${B.banner?`<div class="m-banner"><img src="${B.banner}" alt="${esc(B.ar)}"></div>`:''}<h1 id="menu-h"${/^[A-Za-z]/.test(B.hero)?' dir="ltr" style="text-align:right"':''}>${B.hero}</h1><p>${B.sub}</p></div>
    ${secs}
    <div class="m-end"></div>
   </div>
@@ -753,18 +791,18 @@ function renderMenu(){
 function cardHTML(m,wide){
  const q=qtyOf(m.id),av=isAvail(m.id);
  return `<article class="card${wide?' wide':''}${av?'':' soldout'}" data-id="${m.id}">
-  ${m.hot&&av?'<span class="tag-hot">الأكثر طلباً</span>':''}
-  <button class="art-btn" data-act="item" data-id="${m.id}" aria-label="تفاصيل ${esc(m.name)}">${artBox(m)}</button>
+  ${m.hot&&av?'<span class="tag-hot">'+L('الأكثر طلباً','Popular')+'</span>':''}
+  <button class="art-btn" data-act="item" data-id="${m.id}" aria-label="${L('تفاصيل','Details:')} ${esc(m.name)}">${artBox(m)}</button>
   <div class="c-body"><span class="c-name">${esc(m.name)}</span><span class="c-desc">${esc(m.desc)}</span>
-   <div class="c-foot"><span class="price num">${m.sizes?'<small style="margin:0 0 0 3px">من</small>':''}${bhd(priceOf(m.id,0))}<small>د.ب</small></span>
-   ${!av?'<span class="soldout-chip">نفد اليوم</span>':(m.sizes||m.pick)?`<button class="add" data-act="item" data-id="${m.id}" aria-label="${m.pick?'اختر أطباق':'اختر حجم'} ${esc(m.name)}">${ic('plus',20)}${q?`<span class="add-n num">${q}</span>`:''}</button>`:q?stepper(m.id,q):`<button class="add" data-act="add" data-id="${m.id}" aria-label="أضف ${esc(m.name)}">${ic('plus',20)}</button>`}
+   <div class="c-foot"><span class="price num">${m.sizes?'<small style="margin:0 3px">'+L('من','from')+'</small>':''}${bhd(priceOf(m.id,0))}<small>${CUR()}</small></span>
+   ${!av?'<span class="soldout-chip">'+L('نفد اليوم','Sold out today')+'</span>':(m.sizes||m.pick)?`<button class="add" data-act="item" data-id="${m.id}" aria-label="${m.pick?L('اختر أطباق','Choose dishes'):L('اختر حجم','Choose size')} ${esc(m.name)}">${ic('plus',20)}${q?`<span class="add-n num">${q}</span>`:''}</button>`:q?stepper(m.id,q):`<button class="add" data-act="add" data-id="${m.id}" aria-label="${L('أضف','Add')} ${esc(m.name)}">${ic('plus',20)}</button>`}
    </div></div></article>`;
 }
-const stepper=(id,q,lg)=>`<span class="stepper${lg?' lg':''}"><button data-act="inc" data-id="${id}" aria-label="زيادة">${ic('plus',16)}</button><span class="n num">${q}</span><button data-act="dec" data-id="${id}" aria-label="إنقاص">${ic('minus',16)}</button></span>`;
+const stepper=(id,q,lg)=>`<span class="stepper${lg?' lg':''}"><button data-act="inc" data-id="${id}" aria-label="${L('زيادة','Increase')}">${ic('plus',16)}</button><span class="n num">${q}</span><button data-act="dec" data-id="${id}" aria-label="${L('إنقاص','Decrease')}">${ic('minus',16)}</button></span>`;
 function refreshCard(id){const el=$(`.card[data-id="${id}"]`);if(!el)return;const m=byId(id);const tmp=document.createElement('div');tmp.innerHTML=cardHTML(m,el.classList.contains('wide'));el.replaceWith(tmp.firstElementChild)}
 function renderCartBar(){
  const bar=$('#cartbar');if(!bar)return;const n=cartCount();
- bar.innerHTML=n?`<button data-act="cart"><span class="cnt num" id="cart-cnt">${n}</span><span class="lbl">عرض السلة</span><span class="tot">${bhd(subtotal())} د.ب</span><span style="width:8px"></span></button>`:'';
+ bar.innerHTML=n?`<button data-act="cart"><span class="cnt num" id="cart-cnt">${n}</span><span class="lbl">${L('عرض السلة','View cart')}</span><span class="tot">${bhd(subtotal())} ${CUR()}</span><span style="width:8px"></span></button>`:'';
 }
 function addToCart(id,qty=1,note='',fromEl,sz=0){
  const c=cart();const l=c.find(x=>x.id===id&&x.note===note&&(x.sz||0)===sz);
@@ -811,46 +849,46 @@ function renderSheet(){
  const fn={item:sItem,cart:sCart,pay:sPay,track:sTrack,mine:sMine,branch:sBranch,settings:sSettings}[sheetKind];
  if(fn)$('#sheet-body').innerHTML=fn(sheetArg);
 }
-const head=(t,back)=>`<div class="sh-head">${back?`<button class="icon-btn" data-act="${back}" aria-label="رجوع">${ic('back')}</button>`:''}<h2>${t}</h2><button class="icon-btn" data-act="close-sheet" aria-label="إغلاق">${ic('x')}</button></div>`;
+const head=(t,back)=>`<div class="sh-head">${back?`<button class="icon-btn" data-act="${back}" aria-label="${L('رجوع','Back')}">${ic('back')}</button>`:''}<h2>${t}</h2><button class="icon-btn" data-act="close-sheet" aria-label="${L('إغلاق','Close')}">${ic('x')}</button></div>`;
 
 let itemQty=1,itemSz=0,itemPicks={};
 const pickPool=m=>MENU.filter(x=>x.b===m.b&&(m.b==='fareeq'?['eggs','trad','mains','sweets']:['buns']).includes(x.cat)&&isAvail(x.id));
 const pickTotal=()=>Object.values(itemPicks).reduce((s,n)=>s+n,0);
-const pickNote=m=>pickPool(m).filter(x=>itemPicks[x.id]).map(x=>x.name+(itemPicks[x.id]>1?' ×'+itemPicks[x.id]:'')).join('، ');
+const pickNote=m=>pickPool(m).filter(x=>itemPicks[x.id]).map(x=>x.name+(itemPicks[x.id]>1?' ×'+itemPicks[x.id]:'')).join(L('، ',', '));
 function sItem(id){
  const m=byId(id);const pr=priceOf(id,itemSz);
  return `<div class="item-art">${artBox(m)}</div>
   ${head(esc(m.name))}
   <p style="color:var(--muted)">${esc(m.desc)}</p>
-  ${m.pick?`<div class="sh-sec" style="border:0;padding-bottom:0"><div class="pick-head"><h3>اختر ${m.pick} أطباق</h3><span class="pick-count${pickTotal()===m.pick?' full':''}"><span class="num">${pickTotal()}</span> من <span class="num">${m.pick}</span></span></div>
-   <div class="pick-list">${pickPool(m).map(x=>{const n=itemPicks[x.id]||0;return `<div class="line pick-row${n?' on':''}"><div class="thumb">${artBox(x)}</div><div class="meta"><b>${esc(x.name)}</b></div>${n?`<span class="stepper"><button data-act="pinc" data-v="${x.id}" aria-label="زيادة ${esc(x.name)}" ${pickTotal()>=m.pick?'disabled':''}>${ic('plus',16)}</button><span class="n num">${n}</span><button data-act="pdec" data-v="${x.id}" aria-label="إنقاص ${esc(x.name)}">${ic('minus',16)}</button></span>`:`<button class="add sm" data-act="pinc" data-v="${x.id}" aria-label="اختر ${esc(x.name)}" ${pickTotal()>=m.pick?'disabled':''}>${ic('plus',18)}</button>`}</div>`}).join('')}</div></div>`:''}
-  ${m.sizes?`<div class="sh-sec" style="border:0;padding-bottom:0"><h3>اختر الحجم</h3><div class="sizes">${SIZES.map((z,i)=>`<button data-act="isz" data-v="${i}" aria-pressed="${itemSz===i}"><b>${z[0]}</b><small>${z[1]}</small><span>${bhd(priceOf(id,i))}</span></button>`).join('')}</div></div>`:''}
-  <div class="sh-sec" style="border:0"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span class="price num" style="font-size:22px">${bhd(pr)}<small>د.ب</small></span>${stepper('__item',itemQty,true)}</div></div>
-  <div class="field"><label for="item-note">ملاحظة للمطبخ (اختياري)</label><textarea class="input" id="item-note" placeholder="مثلاً: بدون بصل، حار زيادة"></textarea></div>
-  <div class="sh-foot"><button class="btn btn-main btn-block" data-act="item-add" data-id="${id}" ${isAvail(id)&&(!m.pick||pickTotal()===m.pick)?'':'disabled'}>${!isAvail(id)?'نفد اليوم':m.pick&&pickTotal()<m.pick?`اختر ${m.pick-pickTotal()} أطباق بعد`:`أضف للسلة · <span class="num">${bhd(pr*itemQty)}</span> د.ب`}</button></div>`;
+  ${m.pick?`<div class="sh-sec" style="border:0;padding-bottom:0"><div class="pick-head"><h3>${L(`اختر ${m.pick} أطباق`,`Choose ${m.pick} dishes`)}</h3><span class="pick-count${pickTotal()===m.pick?' full':''}"><span class="num">${pickTotal()}</span> ${L('من','of')} <span class="num">${m.pick}</span></span></div>
+   <div class="pick-list">${pickPool(m).map(x=>{const n=itemPicks[x.id]||0;return `<div class="line pick-row${n?' on':''}"><div class="thumb">${artBox(x)}</div><div class="meta"><b>${esc(x.name)}</b></div>${n?`<span class="stepper"><button data-act="pinc" data-v="${x.id}" aria-label="${L('زيادة','Increase')} ${esc(x.name)}" ${pickTotal()>=m.pick?'disabled':''}>${ic('plus',16)}</button><span class="n num">${n}</span><button data-act="pdec" data-v="${x.id}" aria-label="${L('إنقاص','Decrease')} ${esc(x.name)}">${ic('minus',16)}</button></span>`:`<button class="add sm" data-act="pinc" data-v="${x.id}" aria-label="${L('اختر','Choose')} ${esc(x.name)}" ${pickTotal()>=m.pick?'disabled':''}>${ic('plus',18)}</button>`}</div>`}).join('')}</div></div>`:''}
+  ${m.sizes?`<div class="sh-sec" style="border:0;padding-bottom:0"><h3>${L('اختر الحجم','Choose size')}</h3><div class="sizes">${SIZES.map((z,i)=>`<button data-act="isz" data-v="${i}" aria-pressed="${itemSz===i}"><b>${z[0]}</b><small>${z[1]}</small><span>${bhd(priceOf(id,i))}</span></button>`).join('')}</div></div>`:''}
+  <div class="sh-sec" style="border:0"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span class="price num" style="font-size:22px">${bhd(pr)}<small>${CUR()}</small></span>${stepper('__item',itemQty,true)}</div></div>
+  <div class="field"><label for="item-note">${L('ملاحظة للمطبخ (اختياري)','Note for the kitchen (optional)')}</label><textarea class="input" id="item-note" placeholder="${L('مثلاً: بدون بصل، حار زيادة','e.g. no onion, extra spicy')}"></textarea></div>
+  <div class="sh-foot"><button class="btn btn-main btn-block" data-act="item-add" data-id="${id}" ${isAvail(id)&&(!m.pick||pickTotal()===m.pick)?'':'disabled'}>${!isAvail(id)?L('نفد اليوم','Sold out today'):m.pick&&pickTotal()<m.pick?L(`اختر ${m.pick-pickTotal()} أطباق بعد`,`Choose ${m.pick-pickTotal()} more`):`${L('أضف للسلة','Add to cart')} · <span class="num">${bhd(pr*itemQty)}</span> ${CUR()}`}</button></div>`;
 }
 let checkout={type:'pickup',address:'',area:'',pay:'iban',receipt:null,errors:{}};
 function sCart(){
  const c=cart(),B=BRANDS[brand],p=store.profile,e=checkout.errors;
- if(!c.length)return head('السلة')+`<div class="empty">${ic('bag',40)}<b>سلتك فاضية</b><span>أضف أطباقك من القائمة وبتظهر هنا.</span><button class="btn btn-soft" data-act="close-sheet">تصفّح القائمة</button></div>`;
+ if(!c.length)return head(L('السلة','Cart'))+`<div class="empty">${ic('bag',40)}<b>${L('سلتك فاضية','Your cart is empty')}</b><span>${L('أضف أطباقك من القائمة وبتظهر هنا.','Add dishes from the menu and they will show up here.')}</span><button class="btn btn-soft" data-act="close-sheet">${L('تصفّح القائمة','Browse the menu')}</button></div>`;
  const fee=checkout.type==='delivery'?store.settings.fee:0;
- return head('سلتك')+`
-  <div class="sh-sec">${c.map((l,i)=>{const m=byId(l.id);return `<div class="line"><div class="thumb">${artBox(m)}</div><div class="meta"><b>${esc(lineName(l))}</b><small>${l.note?esc(l.note):bhd(priceOf(l.id,l.sz))+' د.ب'}</small></div>
-   <span class="stepper"><button data-act="linc" data-i="${i}" aria-label="زيادة">${ic('plus',16)}</button><span class="n num">${l.qty}</span><button data-act="ldec" data-i="${i}" aria-label="إنقاص">${ic('minus',16)}</button></span></div>`}).join('')}</div>
-  <div class="sh-sec"><h3>طريقة الاستلام</h3>
-   <div class="seg"><button data-act="otype" data-v="pickup" aria-pressed="${checkout.type==='pickup'}">${ic('store',18)}استلام من الفرع</button><button data-act="otype" data-v="delivery" aria-pressed="${checkout.type==='delivery'}">${ic('bike',18)}توصيل</button></div>
-   <div class="field"><label>${checkout.type==='pickup'?'الفرع اللي بتستلم منه':'أقرب فرع لك'}</label>
+ return head(L('سلتك','Your cart'))+`
+  <div class="sh-sec">${c.map((l,i)=>{const m=byId(l.id);return `<div class="line"><div class="thumb">${artBox(m)}</div><div class="meta"><b>${esc(lineName(l))}</b><small>${l.note?esc(l.note):bhd(priceOf(l.id,l.sz))+' '+CUR()}</small></div>
+   <span class="stepper"><button data-act="linc" data-i="${i}" aria-label="${L('زيادة','Increase')}">${ic('plus',16)}</button><span class="n num">${l.qty}</span><button data-act="ldec" data-i="${i}" aria-label="${L('إنقاص','Decrease')}">${ic('minus',16)}</button></span></div>`}).join('')}</div>
+  <div class="sh-sec"><h3>${L('طريقة الاستلام','How do you want it?')}</h3>
+   <div class="seg"><button data-act="otype" data-v="pickup" aria-pressed="${checkout.type==='pickup'}">${ic('store',18)}${L('استلام من الفرع','Pick up')}</button><button data-act="otype" data-v="delivery" aria-pressed="${checkout.type==='delivery'}">${ic('bike',18)}${L('توصيل','Delivery')}</button></div>
+   <div class="field"><label>${checkout.type==='pickup'?L('الفرع اللي بتستلم منه','Branch to pick up from'):L('أقرب فرع لك','Your nearest branch')}</label>
     <div class="branches">${BRANCHES.map(([id,n])=>`<button data-act="pick-branch" data-v="${id}" aria-pressed="${p.branch===id}">${n}</button>`).join('')}</div>${e.branch?`<span class="err">${e.branch}</span>`:''}</div>
-   ${checkout.type==='delivery'?`<div class="field"><label for="c-area">منطقة التوصيل</label><select class="input${e.area?' bad':''}" id="c-area"><option value="">اختر منطقتك</option>${AREAS.map(([g,l])=>`<optgroup label="${g}">${l.map(a=>`<option ${checkout.area===a?'selected':''}>${esc(a)}</option>`).join('')}</optgroup>`).join('')}</select>${e.area?`<span class="err">${e.area}</span>`:''}</div><div class="field"><label for="c-addr">العنوان</label><textarea class="input${e.address?' bad':''}" id="c-addr" placeholder="رقم المجمع، الطريق، المبنى أو المنزل">${esc(checkout.address)}</textarea>${e.address?`<span class="err">${e.address}</span>`:''}</div>`:''}
+   ${checkout.type==='delivery'?`<div class="field"><label for="c-area">${L('منطقة التوصيل','Delivery area')}</label><select class="input${e.area?' bad':''}" id="c-area"><option value="">${L('اختر منطقتك','Choose your area')}</option>${AREAS.map(([g,l])=>`<optgroup label="${g}">${l.map(a=>`<option ${checkout.area===a?'selected':''}>${esc(a)}</option>`).join('')}</optgroup>`).join('')}</select>${e.area?`<span class="err">${e.area}</span>`:''}</div><div class="field"><label for="c-addr">${L('العنوان','Address')}</label><textarea class="input${e.address?' bad':''}" id="c-addr" placeholder="${L('رقم المجمع، الطريق، المبنى أو المنزل','Block, road, building or house number')}">${esc(checkout.address)}</textarea>${e.address?`<span class="err">${e.address}</span>`:''}</div>`:''}
   </div>
-  <div class="sh-sec"><h3>بياناتك</h3>
-   <div class="row2"><div class="field"><label for="c-name">الاسم</label><input class="input${e.name?' bad':''}" id="c-name" autocomplete="name" value="${esc(p.name)}" placeholder="اسمك">${e.name?`<span class="err">${e.name}</span>`:''}</div>
-   <div class="field"><label for="c-phone">رقم الجوال</label><input class="input ltr${e.phone?' bad':''}" id="c-phone" inputmode="tel" autocomplete="tel" value="${esc(p.phone)}" placeholder="3xxxxxxx" style="text-align:right">${e.phone?`<span class="err">${e.phone}</span>`:''}</div></div>
+  <div class="sh-sec"><h3>${L('بياناتك','Your details')}</h3>
+   <div class="row2"><div class="field"><label for="c-name">${L('الاسم','Name')}</label><input class="input${e.name?' bad':''}" id="c-name" autocomplete="name" value="${esc(p.name)}" placeholder="${L('اسمك','Your name')}">${e.name?`<span class="err">${e.name}</span>`:''}</div>
+   <div class="field"><label for="c-phone">${L('رقم الجوال','Mobile number')}</label><input class="input ltr${e.phone?' bad':''}" id="c-phone" inputmode="tel" autocomplete="tel" value="${esc(p.phone)}" placeholder="3xxxxxxx" style="text-align:${lang==='en'?'left':'right'}">${e.phone?`<span class="err">${e.phone}</span>`:''}</div></div>
   </div>
-  <div class="sh-sec"><div class="sum"><span>المجموع</span><span class="num">${bhd(subtotal())} د.ب</span></div>
-   ${fee?`<div class="sum"><span>رسوم التوصيل</span><span class="num">${bhd(fee)} د.ب</span></div>`:''}
-   <div class="sum total"><span>الإجمالي</span><span class="num">${bhd(subtotal()+fee)} د.ب</span></div></div>
-  <div class="sh-foot"><button class="btn btn-main btn-block" data-act="to-pay">المتابعة للدفع ${ic('fwd',18)}</button><span class="hint" style="text-align:center">${B.ar}</span></div>`;
+  <div class="sh-sec"><div class="sum"><span>${L('المجموع','Subtotal')}</span><span class="num">${bhd(subtotal())} ${CUR()}</span></div>
+   ${fee?`<div class="sum"><span>${L('رسوم التوصيل','Delivery fee')}</span><span class="num">${bhd(fee)} ${CUR()}</span></div>`:''}
+   <div class="sum total"><span>${L('الإجمالي','Total')}</span><span class="num">${bhd(subtotal()+fee)} ${CUR()}</span></div></div>
+  <div class="sh-foot"><button class="btn btn-main btn-block" data-act="to-pay">${L('المتابعة للدفع','Continue to payment')} ${ic('fwd',18)}</button><span class="hint" style="text-align:center">${B.ar}</span></div>`;
 }
 function readCartForm(){
  const n=$('#c-name'),ph=$('#c-phone'),ad=$('#c-addr');
@@ -862,40 +900,40 @@ function readCartForm(){
 }
 function validateCart(){
  const e={},p=store.profile;
- if(!p.branch)e.branch='اختر الفرع.';
- if(!p.name)e.name='اكتب اسمك عشان نناديك عند الاستلام.';
- if(!/^[136]\d{7}$/.test(p.phone))e.phone='رقم بحريني من 8 أرقام، مثل 33xxxxxx.';
- if(checkout.type==='delivery'&&!checkout.area)e.area='اختر منطقة التوصيل.';
- if(checkout.type==='delivery'&&checkout.address.length<6)e.address='اكتب العنوان كامل.';
+ if(!p.branch)e.branch=L('اختر الفرع.','Choose a branch.');
+ if(!p.name)e.name=L('اكتب اسمك عشان نناديك عند الاستلام.','Enter your name so we can call you at pickup.');
+ if(!/^[136]\d{7}$/.test(p.phone))e.phone=L('رقم بحريني من 8 أرقام، مثل 33xxxxxx.','An 8-digit Bahraini number, e.g. 33xxxxxx.');
+ if(checkout.type==='delivery'&&!checkout.area)e.area=L('اختر منطقة التوصيل.','Choose your delivery area.');
+ if(checkout.type==='delivery'&&checkout.address.length<6)e.address=L('اكتب العنوان كامل.','Enter your full address.');
  checkout.errors=e;return !Object.keys(e).length;
 }
 const orderTotal=()=>subtotal()+(checkout.type==='delivery'?store.settings.fee:0);
 const nextId=()=>BRANDS[brand].px+'-'+(store.seq+1);
 function sPay(){
  const S=store.settings,tot=bhd(orderTotal()),ref=nextId(),isIban=checkout.pay==='iban';
- return head('الدفع','cart')+`
-  <div class="sh-sec" style="border:0;padding-top:0"><span style="color:var(--muted)">المبلغ المطلوب</span><span class="amount-big">${tot} <small style="font-size:16px;color:var(--muted)">د.ب</small></span></div>
-  <div class="seg"><button data-act="paym" data-v="iban" aria-pressed="${isIban}">${ic('bank',18)}تحويل آيبان</button><button data-act="paym" data-v="benefit" aria-pressed="${!isIban}">${ic('phone',18)}BenefitPay</button></div>
+ return head(L('الدفع','Payment'),'cart')+`
+  <div class="sh-sec" style="border:0;padding-top:0"><span style="color:var(--muted)">${L('المبلغ المطلوب','Amount due')}</span><span class="amount-big">${tot} <small style="font-size:16px;color:var(--muted)">${CUR()}</small></span></div>
+  <div class="seg"><button data-act="paym" data-v="iban" aria-pressed="${isIban}">${ic('bank',18)}${L('تحويل آيبان','IBAN transfer')}</button><button data-act="paym" data-v="benefit" aria-pressed="${!isIban}">${ic('phone',18)}BenefitPay</button></div>
   <div class="sh-sec" style="border:0">
    <div class="paycard">
-    ${S.sample?'<span class="sample-note">بيانات دفع تجريبية، عدّلها من لوحة الفرع ← الإعدادات</span>':''}
+    ${S.sample?'<span class="sample-note">'+L('بيانات دفع تجريبية، عدّلها من لوحة الفرع ← الإعدادات','Sample payment details. Edit them in Branch board → Settings')+'</span>':''}
     ${isIban?`
-     <div class="kv"><div><small>اسم المستفيد</small><b>${esc(S.holder)}</b></div></div>
-     <div class="kv"><div><small>البنك</small><b>${esc(S.bank)}</b></div></div>
-     <div class="kv-iban"><div class="kv"><small>رقم الآيبان</small><button class="copy" data-act="copy" data-v="${esc(S.iban.replace(/\s/g,''))}">${ic('copy',16)}نسخ</button></div><div class="iban ltr">${fmtIban(S.iban)}</div></div>`
+     <div class="kv"><div><small>${L('اسم المستفيد','Account name')}</small><b>${esc(S.holder)}</b></div></div>
+     <div class="kv"><div><small>${L('البنك','Bank')}</small><b>${esc(S.bank)}</b></div></div>
+     <div class="kv-iban"><div class="kv"><small>${L('رقم الآيبان','IBAN')}</small><button class="copy" data-act="copy" data-v="${esc(S.iban.replace(/\s/g,''))}">${ic('copy',16)}${L('نسخ','Copy')}</button></div><div class="iban ltr">${fmtIban(S.iban)}</div></div>`
     :`
-     <div class="kv"><div><small>حوّل عبر BenefitPay إلى الرقم</small><div class="iban ltr">${esc(S.benefit)}</div></div><button class="copy" data-act="copy" data-v="${esc(S.benefit)}">${ic('copy',16)}نسخ</button></div>
-     <div class="kv"><div><small>اسم المستفيد</small><b>${esc(S.holder)}</b></div></div>`}
-    <div class="kv"><div><small>المبلغ</small><b class="num">${tot} د.ب</b></div><button class="copy" data-act="copy" data-v="${tot}">${ic('copy',16)}نسخ</button></div>
-    <div class="kv"><div><small>اكتب رقم الطلب في وصف التحويل</small><b class="ltr num">${ref}</b></div><button class="copy" data-act="copy" data-v="${ref}">${ic('copy',16)}نسخ</button></div>
+     <div class="kv"><div><small>${L('حوّل عبر BenefitPay إلى الرقم','Send via BenefitPay to')}</small><div class="iban ltr">${esc(S.benefit)}</div></div><button class="copy" data-act="copy" data-v="${esc(S.benefit)}">${ic('copy',16)}${L('نسخ','Copy')}</button></div>
+     <div class="kv"><div><small>${L('اسم المستفيد','Account name')}</small><b>${esc(S.holder)}</b></div></div>`}
+    <div class="kv"><div><small>${L('المبلغ','Amount')}</small><b class="num">${tot} ${CUR()}</b></div><button class="copy" data-act="copy" data-v="${tot}">${ic('copy',16)}${L('نسخ','Copy')}</button></div>
+    <div class="kv"><div><small>${L('اكتب رقم الطلب في وصف التحويل','Write the order number in the transfer note')}</small><b class="ltr num">${ref}</b></div><button class="copy" data-act="copy" data-v="${ref}">${ic('copy',16)}${L('نسخ','Copy')}</button></div>
    </div>
   </div>
-  <div class="sh-sec"><h3>بعد التحويل، ارفع صورة الإيصال</h3>
-   <label class="drop" id="drop">${checkout.receipt?`<img src="${checkout.receipt}" alt="الإيصال المرفوع"><div><b>تم إرفاق الإيصال</b><small>اضغط لتغييره</small></div>`:`<span class="dz-ic">${ic('upload',24)}</span><div><b>ارفع لقطة شاشة التحويل</b><small>صورة من تطبيق البنك أو BenefitPay</small></div>`}
-    <input type="file" id="rc-file" accept="image/*" aria-label="رفع إيصال التحويل"></label>
-   <span class="hint">نراجع التحويل ونأكد طلبك خلال دقائق، وتقدر تتابع الحالة من صفحة الطلب.</span>
+  <div class="sh-sec"><h3>${L('بعد التحويل، ارفع صورة الإيصال','After transferring, upload the receipt')}</h3>
+   <label class="drop" id="drop">${checkout.receipt?`<img src="${checkout.receipt}" alt="${L('الإيصال المرفوع','Uploaded receipt')}"><div><b>${L('تم إرفاق الإيصال','Receipt attached')}</b><small>${L('اضغط لتغييره','Tap to change it')}</small></div>`:`<span class="dz-ic">${ic('upload',24)}</span><div><b>${L('ارفع لقطة شاشة التحويل','Upload a screenshot of the transfer')}</b><small>${L('صورة من تطبيق البنك أو BenefitPay','From your bank app or BenefitPay')}</small></div>`}
+    <input type="file" id="rc-file" accept="image/*" aria-label="${L('رفع إيصال التحويل','Upload transfer receipt')}"></label>
+   <span class="hint">${L('نراجع التحويل ونأكد طلبك خلال دقائق، وتقدر تتابع الحالة من صفحة الطلب.','We check the transfer and confirm your order within minutes. You can follow its status on the order page.')}</span>
   </div>
-  <div class="sh-foot"><button class="btn btn-main btn-block" data-act="submit" ${checkout.receipt?'':'disabled'}>${checkout.receipt?'أرسل الطلب':'ارفع الإيصال لإرسال الطلب'}</button></div>`;
+  <div class="sh-foot"><button class="btn btn-main btn-block" data-act="submit" ${checkout.receipt?'':'disabled'}>${checkout.receipt?L('أرسل الطلب','Place order'):L('ارفع الإيصال لإرسال الطلب','Upload the receipt to place the order')}</button></div>`;
 }
 function submitOrder(){
  if(!checkout.receipt)return;
@@ -903,38 +941,38 @@ function submitOrder(){
  const o={id:BRANDS[brand].px+'-'+store.seq,brand,items:cart().map(l=>({id:l.id,qty:l.qty,note:l.note,sz:l.sz||0})),type:checkout.type,branch:store.profile.branch,address:checkout.type==='delivery'?(checkout.area?checkout.area+' · ':'')+checkout.address:'',name:store.profile.name,phone:store.profile.phone,pay:checkout.pay,total:orderTotal(),receipt:checkout.receipt,status:'review',at:Date.now()};
  store.orders.unshift(o);store.mine.unshift(o.id);store.carts[brand]=[];
  if(store.orders.length>80)store.orders.length=80;
- if(!save()){toast('مساحة التخزين ممتلئة، احذف طلبات قديمة من لوحة الفرع');return}
+ if(!save()){toast(L('مساحة التخزين ممتلئة، احذف طلبات قديمة من لوحة الفرع','Storage is full. Delete old orders from the branch board'));return}
  checkout.receipt=null;checkout.errors={};
  renderMenu();openSheet('track',o.id);
 }
 const FLOW=['review','confirmed','preparing','ready','done'];
 function sTrack(id){
- const o=store.orders.find(x=>x.id===id);if(!o)return head('الطلب')+'<div class="empty">ما لقينا هذا الطلب.</div>';
+ const o=store.orders.find(x=>x.id===id);if(!o)return head(L('الطلب','Order'))+'<div class="empty">'+L('ما لقينا هذا الطلب.','We could not find this order.')+'</div>';
  const B=BRANDS[o.brand],idx=FLOW.indexOf(o.status);
- const sub={review:'نتأكد من وصول التحويل',confirmed:'وصل المبلغ، طلبك بالدور',preparing:'المطبخ يجهّز طلبك',ready:o.type==='delivery'?'طلبك طلع مع المندوب':`جاهز للاستلام من فرع ${branchName(o.branch)}`,done:'بالعافية عليك'};
- const lbl={...STATUS,ready:o.type==='delivery'?'خرج للتوصيل':'جاهز للاستلام'};
- return head('طلبك')+`
-  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><small style="color:var(--muted)">رقم الطلب</small><div class="track-id">${o.id}</div></div><span class="chip chip-brand">${B.ar}</span></div>
+ const sub={review:L('نتأكد من وصول التحويل','Checking that your transfer arrived'),confirmed:L('وصل المبلغ، طلبك بالدور','Payment received, your order is in the queue'),preparing:L('المطبخ يجهّز طلبك','The kitchen is preparing your order'),ready:o.type==='delivery'?L('طلبك طلع مع المندوب','Your order is on its way'):L(`جاهز للاستلام من فرع ${branchName(o.branch)}`,`Ready for pickup at ${branchName(o.branch)}`),done:L('بالعافية عليك','Enjoy your meal')};
+ const lbl={...STATUS,ready:o.type==='delivery'?L('خرج للتوصيل','Out for delivery'):L('جاهز للاستلام','Ready for pickup')};
+ return head(L('طلبك','Your order'))+`
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><small style="color:var(--muted)">${L('رقم الطلب','Order number')}</small><div class="track-id">${o.id}</div></div><span class="chip chip-brand">${B.ar}</span></div>
   ${o.status==='rejected'?`
-   <div class="sh-sec" style="border:0"><div class="alert"><b>ما قدرنا نتأكد من التحويل</b><span>${esc(o.reason||'راجع الإيصال وارفعه مرة ثانية.')}</span>
-   <label class="drop" style="border-color:rgba(255,255,255,.25)"><span class="dz-ic">${ic('upload',22)}</span><div><b>ارفع إيصال جديد</b><small>بنرجع نراجعه فوراً</small></div><input type="file" data-reupload="${o.id}" accept="image/*" aria-label="رفع إيصال جديد"></label></div></div>`
+   <div class="sh-sec" style="border:0"><div class="alert"><b>${L('ما قدرنا نتأكد من التحويل','We could not confirm your transfer')}</b><span>${esc(o.reason||L('راجع الإيصال وارفعه مرة ثانية.','Check the receipt and upload it again.'))}</span>
+   <label class="drop" style="border-color:rgba(255,255,255,.25)"><span class="dz-ic">${ic('upload',22)}</span><div><b>${L('ارفع إيصال جديد','Upload a new receipt')}</b><small>${L('بنرجع نراجعه فوراً','We will check it right away')}</small></div><input type="file" data-reupload="${o.id}" accept="image/*" aria-label="${L('رفع إيصال جديد','Upload a new receipt')}"></label></div></div>`
   :`<div class="sh-sec" style="border:0"><ol class="steps">${FLOW.map((s,i)=>`<li class="${i<idx||o.status==='done'?'done':i===idx?'now':''}"><span class="dot">${i<idx||o.status==='done'?ic('check',16):ic(['clock','check','chef','bag','check'][i],16)}</span><div><b>${lbl[s]}</b>${i===idx?`<small>${sub[s]}</small>`:''}</div></li>`).join('')}</ol></div>`}
-  <div class="sh-sec"><h3>التفاصيل</h3>
+  <div class="sh-sec"><h3>${L('التفاصيل','Details')}</h3>
    ${o.items.map(l=>`<div class="sum"><span>${l.qty} × ${esc(lineName(l))}${l.note?` <small style="color:var(--dim)">(${esc(l.note)})</small>`:''}</span><span class="num">${bhd(l.qty*priceOf(l.id,l.sz))}</span></div>`).join('')}
-   <div class="sum total"><span>الإجمالي</span><span class="num">${bhd(o.total)} د.ب</span></div>
-   <div class="sum"><span>${o.type==='delivery'?'توصيل إلى':'استلام من'}</span><span>${o.type==='delivery'?esc(o.address):'فرع '+branchName(o.branch)}</span></div>
-   <div class="sum"><span>الدفع</span><span>${o.pay==='iban'?'تحويل آيبان':'BenefitPay'} · ${clock(o.at)}</span></div>
+   <div class="sum total"><span>${L('الإجمالي','Total')}</span><span class="num">${bhd(o.total)} ${CUR()}</span></div>
+   <div class="sum"><span>${o.type==='delivery'?L('توصيل إلى','Deliver to'):L('استلام من','Pick up from')}</span><span>${o.type==='delivery'?esc(o.address):L('فرع ','')+branchName(o.branch)}</span></div>
+   <div class="sum"><span>${L('الدفع','Payment')}</span><span>${o.pay==='iban'?L('تحويل آيبان','IBAN transfer'):'BenefitPay'} · ${clock(o.at)}</span></div>
   </div>
-  <div class="sh-foot"><button class="btn btn-soft btn-block" data-act="close-sheet">رجوع للقائمة</button></div>`;
+  <div class="sh-foot"><button class="btn btn-soft btn-block" data-act="close-sheet">${L('رجوع للقائمة','Back to menu')}</button></div>`;
 }
 function sMine(){
  const list=store.mine.map(id=>store.orders.find(o=>o.id===id)).filter(Boolean);
- return head('طلباتي')+(list.length?list.map(o=>`<button class="line" data-act="track" data-id="${o.id}" style="width:100%;text-align:start;border-top:1px solid var(--line)"><div class="thumb">${artBox(byId(o.items[0].id))}</div><div class="meta"><b class="ltr" style="text-align:right">${o.id}</b><small>${BRANDS[o.brand].ar} · ${bhd(o.total)} د.ب · ${timeAgo(o.at)}</small></div>${chip(o.status)}</button>`).join('')
-  :`<div class="empty">${ic('receipt',40)}<b>ما عندك طلبات بعد</b><span>طلباتك من هذا الجهاز بتظهر هنا مع حالتها.</span></div>`);
+ return head(L('طلباتي','My orders'))+(list.length?list.map(o=>`<button class="line" data-act="track" data-id="${o.id}" style="width:100%;text-align:start;border-top:1px solid var(--line)"><div class="thumb">${artBox(byId(o.items[0].id))}</div><div class="meta"><b class="ltr" style="text-align:${lang==='en'?'left':'right'}">${o.id}</b><small>${BRANDS[o.brand].ar} · ${bhd(o.total)} ${CUR()} · ${timeAgo(o.at)}</small></div>${chip(o.status)}</button>`).join('')
+  :`<div class="empty">${ic('receipt',40)}<b>${L('ما عندك طلبات بعد','No orders yet')}</b><span>${L('طلباتك من هذا الجهاز بتظهر هنا مع حالتها.','Orders placed from this device show up here with their status.')}</span></div>`);
 }
 function sBranch(){
  const p=store.profile;
- return head('اختر الفرع')+`<p class="hint" style="margin-bottom:12px">نجهّز طلبك في الفرع اللي تختاره.</p><div class="branches">${BRANCHES.map(([id,n])=>`<button data-act="set-branch" data-v="${id}" aria-pressed="${p.branch===id}">${ic('pin',16)}${n}</button>`).join('')}</div>`;
+ return head(L('اختر الفرع','Choose branch'))+`<p class="hint" style="margin-bottom:12px">${L('نجهّز طلبك في الفرع اللي تختاره.','We prepare your order at the branch you choose.')}</p><div class="branches">${BRANCHES.map(([id,n])=>`<button data-act="set-branch" data-v="${id}" aria-pressed="${p.branch===id}">${ic('pin',16)}${n}</button>`).join('')}</div>`;
 }
 
 /* ---------------- board ---------------- */
@@ -943,42 +981,42 @@ try{unlocked=sessionStorage.getItem('fbq-board')==='1'}catch(e){}
 function renderBoard(){
  const el=$('#v-board');
  if(!unlocked){
-  el.innerHTML=`<div class="wrap gate"><form class="gate-box" id="gate">${ic('lock',36)}<h1>لوحة الفرع</h1><p style="color:var(--muted)">أدخل رمز الموظفين لعرض الطلبات وتأكيد التحويلات.</p>
-   <input class="input pin num" id="pin" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="رمز الدخول" placeholder="••••">
-   <span class="err" id="pin-err" hidden>الرمز غير صحيح.</span>
-   <button class="btn btn-main btn-block" type="submit">دخول</button>
-   <span class="hint">الرمز التجريبي 1234 · غيّره من الإعدادات</span>
-   <a class="btn-ghost" href="#" style="display:inline-flex;align-items:center;justify-content:center;gap:6px">${ic('back',16)}رجوع لصفحة الطلب</a></form></div>`;
+  el.innerHTML=`<div class="wrap gate"><form class="gate-box" id="gate">${ic('lock',36)}<h1>${L('لوحة الفرع','Branch board')}</h1><p style="color:var(--muted)">${L('أدخل رمز الموظفين لعرض الطلبات وتأكيد التحويلات.','Enter the staff code to see orders and confirm transfers.')}</p>
+   <input class="input pin num" id="pin" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="${L('رمز الدخول','Access code')}" placeholder="••••">
+   <span class="err" id="pin-err" hidden>${L('الرمز غير صحيح.','Wrong code.')}</span>
+   <button class="btn btn-main btn-block" type="submit">${L('دخول','Enter')}</button>
+   <span class="hint">${L('الرمز التجريبي 1234 · غيّره من الإعدادات','Sample code 1234 · change it in Settings')}</span>
+   <a class="btn-ghost" href="#" style="display:inline-flex;align-items:center;justify-content:center;gap:6px">${ic('back',16)}${L('رجوع لصفحة الطلب','Back to ordering')}</a><button class="icon-btn lang-btn" style="align-self:center" data-act="lang" aria-label="${L('Switch to English','التبديل إلى العربية')}">${lang==='en'?'<span class="l-ar">ع</span>':'EN'}</button></form></div>`;
   setTimeout(()=>{const p=$('#pin');if(p)p.focus()},50);return;
  }
  const vis=store.orders.filter(o=>bBranch==='all'||o.branch===bBranch);
  const counts={};['review','confirmed','preparing','ready','done','rejected'].forEach(s=>counts[s]=vis.filter(o=>o.status===s).length);
  const list=vis.filter(o=>o.status===bTab).sort((a,b)=>bTab==='done'||bTab==='rejected'?b.at-a.at:a.at-b.at);
- const tabs=[['review','بانتظار التحقق'],['confirmed','مؤكدة'],['preparing','قيد التحضير'],['ready','جاهزة'],['done','مكتملة'],['rejected','مرفوضة']];
+ const tabs=[['review',L('بانتظار التحقق','To verify')],['confirmed',L('مؤكدة','Confirmed')],['preparing',L('قيد التحضير','Preparing')],['ready',L('جاهزة','Ready')],['done',L('مكتملة','Completed')],['rejected',L('مرفوضة','Rejected')]];
  el.innerHTML=`<header class="b-head"><div class="wrap"><div class="row">
-   <a class="icon-btn" href="#" aria-label="رجوع">${ic('back')}</a><h1>لوحة الطلبات</h1>
-   <select class="input" id="b-branch" aria-label="الفرع"><option value="all">كل الفروع</option>${BRANCHES.map(([id,n])=>`<option value="${id}" ${bBranch===id?'selected':''}>${n}</option>`).join('')}</select>
-   <button class="icon-btn" data-act="settings" aria-label="الإعدادات">${ic('sliders')}</button></div>
+   <a class="icon-btn" href="#" aria-label="${L('رجوع','Back')}">${ic('back')}</a><h1>${L('لوحة الطلبات','Orders board')}</h1>
+   <select class="input" id="b-branch" aria-label="${L('الفرع','Branch')}"><option value="all">${L('كل الفروع','All branches')}</option>${BRANCHES.map(([id,n])=>`<option value="${id}" ${bBranch===id?'selected':''}>${n}</option>`).join('')}</select>
+   <button class="icon-btn lang-btn" data-act="lang" aria-label="${L('Switch to English','التبديل إلى العربية')}">${lang==='en'?'<span class="l-ar">ع</span>':'EN'}</button><button class="icon-btn" data-act="settings" aria-label="${L('الإعدادات','Settings')}">${ic('sliders')}</button></div>
    <nav class="tabs">${tabs.map(([s,n])=>`<button class="tab" data-act="btab" data-v="${s}" aria-current="${bTab===s}">${n}<span class="n">${counts[s]}</span></button>`).join('')}</nav></div></header>
-  <div class="wrap orders">${list.length?list.map(oCard).join(''):`<div class="empty">${ic('receipt',44)}<b>لا توجد طلبات هنا</b><span>${bTab==='review'?'أي طلب جديد يوصل بيظهر هنا مع إيصال التحويل.':'الطلبات تنتقل لهذا القسم حسب حالتها.'}</span></div>`}</div>`;
+  <div class="wrap orders">${list.length?list.map(oCard).join(''):`<div class="empty">${ic('receipt',44)}<b>${L('لا توجد طلبات هنا','No orders here')}</b><span>${bTab==='review'?L('أي طلب جديد يوصل بيظهر هنا مع إيصال التحويل.','New orders appear here with their transfer receipt.'):L('الطلبات تنتقل لهذا القسم حسب حالتها.','Orders move here as their status changes.')}</span></div>`}</div>`;
  const g=G();$$('.ocard.fresh').forEach(c=>{if(g)g.from(c,{y:-20,opacity:0,duration:.6,ease:'expo.out'})});fresh.clear();
 }
 function oCard(o){
  const B=BRANDS[o.brand];
- const next={review:['confirmed','تأكيد الدفع'],confirmed:['preparing','بدء التحضير'],preparing:['ready',o.type==='delivery'?'خرج للتوصيل':'جاهز للاستلام'],ready:['done','تم التسليم']}[o.status];
+ const next={review:['confirmed',L('تأكيد الدفع','Confirm payment')],confirmed:['preparing',L('بدء التحضير','Start preparing')],preparing:['ready',o.type==='delivery'?L('خرج للتوصيل','Out for delivery'):L('جاهز للاستلام','Ready for pickup')],ready:['done',L('تم التسليم','Delivered')]}[o.status];
  const rej=rejecting===o.id;
  return `<article class="ocard${fresh.has(o.id)?' fresh':''}">
-  <div class="o-top"><span class="o-id">${o.id}</span><span class="chip chip-brand">${B.ar}</span>${o.sample?'<span class="chip chip-sample">مثال</span>':''}</div>
+  <div class="o-top"><span class="o-id">${o.id}</span><span class="chip chip-brand">${B.ar}</span>${o.sample?'<span class="chip chip-sample">'+L('مثال','Sample')+'</span>':''}</div>
   <div class="o-who"><b>${esc(o.name)}</b><span class="ltr" style="justify-content:flex-end;user-select:all">+973 ${esc(o.phone)}</span>
-   <span>${ic(o.type==='delivery'?'bike':'store',15)}${o.type==='delivery'?'توصيل · '+esc(o.address):'استلام · فرع '+branchName(o.branch)}</span>
+   <span>${ic(o.type==='delivery'?'bike':'store',15)}${o.type==='delivery'?L('توصيل · ','Delivery · ')+esc(o.address):L('استلام · فرع ','Pickup · ')+branchName(o.branch)}</span>
    <span>${ic('clock',15)}${clock(o.at)} · ${timeAgo(o.at)}</span></div>
   <ul class="o-items">${o.items.map(l=>{return `<li><span class="q">${l.qty}×</span><span>${esc(lineName(l))}${l.note?`<span class="nt">${esc(l.note)}</span>`:''}</span></li>`}).join('')}</ul>
-  <div class="o-pay">${o.receipt?`<button class="rc" data-act="view-rc" data-id="${o.id}" aria-label="عرض الإيصال"><img src="${o.receipt}" alt=""><span>الإيصال</span></button>`:`<span class="rc" style="display:grid;place-items:center;color:var(--dim)">${ic('image')}</span>`}
-   <div><span class="amt">${bhd(o.total)} د.ب</span><small>${o.pay==='iban'?'تحويل آيبان':'BenefitPay'} · المرجع ${o.id}</small></div></div>
+  <div class="o-pay">${o.receipt?`<button class="rc" data-act="view-rc" data-id="${o.id}" aria-label="${L('عرض الإيصال','View receipt')}"><img src="${o.receipt}" alt=""><span>${L('الإيصال','Receipt')}</span></button>`:`<span class="rc" style="display:grid;place-items:center;color:var(--dim)">${ic('image')}</span>`}
+   <div><span class="amt">${bhd(o.total)} ${CUR()}</span><small>${o.pay==='iban'?L('تحويل آيبان','IBAN transfer'):'BenefitPay'} · ${L('المرجع','Ref')} ${o.id}</small></div></div>
   ${o.status==='rejected'&&o.reason?`<div class="alert" style="padding:10px 12px;font-size:13px">${esc(o.reason)}</div>`:''}
-  ${rej?`<div class="field"><label>سبب الرفض (يظهر للزبون)</label><div class="reasons">${['المبلغ غير مطابق','الإيصال غير واضح','لم يصل التحويل بعد'].map(r=>`<button data-act="rr" data-v="${r}" aria-pressed="${rejReason===r}">${r}</button>`).join('')}</div>
-    <div class="o-acts"><button class="btn btn-bad" data-act="rej-ok" data-id="${o.id}" ${rejReason?'':'disabled'}>تأكيد الرفض</button><button class="btn btn-soft" data-act="rej-cancel">إلغاء</button></div></div>`
-  :next?`<div class="o-acts"><button class="btn ${o.status==='review'?'btn-ok':'btn-main'}" data-act="adv" data-id="${o.id}" data-v="${next[0]}">${ic('check',18)}${next[1]}</button>${o.status==='review'?`<button class="btn btn-bad" data-act="rej" data-id="${o.id}">رفض</button>`:''}</div>`:''}
+  ${rej?`<div class="field"><label>${L('سبب الرفض (يظهر للزبون)','Reason (shown to the customer)')}</label><div class="reasons">${[L('المبلغ غير مطابق','Amount does not match'),L('الإيصال غير واضح','Receipt is not clear'),L('لم يصل التحويل بعد','Transfer not received yet')].map(r=>`<button data-act="rr" data-v="${r}" aria-pressed="${rejReason===r}">${r}</button>`).join('')}</div>
+    <div class="o-acts"><button class="btn btn-bad" data-act="rej-ok" data-id="${o.id}" ${rejReason?'':'disabled'}>${L('تأكيد الرفض','Confirm rejection')}</button><button class="btn btn-soft" data-act="rej-cancel">${L('إلغاء','Cancel')}</button></div></div>`
+  :next?`<div class="o-acts"><button class="btn ${o.status==='review'?'btn-ok':'btn-main'}" data-act="adv" data-id="${o.id}" data-v="${next[0]}">${ic('check',18)}${next[1]}</button>${o.status==='review'?`<button class="btn btn-bad" data-act="rej" data-id="${o.id}">${L('رفض','Reject')}</button>`:''}</div>`:''}
  </article>`;
 }
 function beep(){try{const A=window.AudioContext||window.webkitAudioContext;const c=new A();[0,.18].forEach((t,i)=>{const o=c.createOscillator(),g=c.createGain();o.frequency.value=i?1180:880;g.gain.setValueAtTime(.0001,c.currentTime+t);g.gain.exponentialRampToValueAtTime(.25,c.currentTime+t+.02);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+t+.16);o.connect(g).connect(c.destination);o.start(c.currentTime+t);o.stop(c.currentTime+t+.2)})}catch(e){}}
@@ -987,23 +1025,23 @@ store.orders.forEach(o=>seen.add(o.id));
 function sSettings(){
  const S=store.settings;
  const rows=MENU.filter(m=>m.b===edBrand).map(m=>{const e=store.menuEdits[m.id]||{};return `<div class="ed-row"><div>${artBox(m)}</div>
-  <div><div class="nm">${esc(m.name)}</div><div class="ctrls">${(m.sizes?[0,1,2]:[0]).map(i=>`<input class="input num ltr" type="number" step="0.050" min="0" id="pr-${m.id}-${i}" data-price="${m.id}" data-sz="${i}" value="${bhd(priceOf(m.id,i))}" aria-label="سعر ${esc(m.name)}${m.sizes?' '+SIZES[i][0]:''}" ${m.sizes?`title="${SIZES[i][0]}" placeholder="${SIZES[i][0]}"`:''} style="width:${m.sizes?84:100}px">`).join('')}
-   <span class="mini">${ic('image',15)}${e.photo?'تغيير الصورة':'رفع صورة'}<input type="file" accept="image/*" data-photo="${m.id}" aria-label="صورة ${esc(m.name)}"></span>
-   ${e.photo?`<button class="mini" data-act="rm-photo" data-id="${m.id}">إزالة</button>`:''}</div></div>
-  <button class="switch" role="switch" aria-checked="${isAvail(m.id)}" data-act="avail" data-id="${m.id}" aria-label="${esc(m.name)} متوفر"></button></div>`}).join('');
- return head('الإعدادات')+`
-  <div class="sh-sec"><h3>بيانات الدفع التي تظهر للزبون</h3>
-   <div class="field"><label for="s-holder">اسم المستفيد</label><input class="input" id="s-holder" value="${esc(S.holder)}"></div>
-   <div class="field"><label for="s-bank">البنك</label><input class="input" id="s-bank" value="${esc(S.bank)}"></div>
-   <div class="field"><label for="s-iban">رقم الآيبان</label><input class="input ltr" id="s-iban" value="${esc(fmtIban(S.iban))}" style="text-align:left"><span class="err" id="iban-err" hidden>الآيبان البحريني 22 خانة ويبدأ بـ BH.</span></div>
-   <div class="row2"><div class="field"><label for="s-benefit">رقم BenefitPay</label><input class="input ltr num" id="s-benefit" inputmode="tel" value="${esc(S.benefit)}" style="text-align:right"></div>
-   <div class="field"><label for="s-fee">رسوم التوصيل (د.ب)</label><input class="input ltr num" id="s-fee" type="number" step="0.100" min="0" value="${bhd(S.fee)}" style="text-align:right"></div></div>
-   <div class="field"><label for="s-pin">رمز دخول اللوحة</label><input class="input ltr num" id="s-pin" inputmode="numeric" maxlength="6" value="${esc(S.pin)}" style="text-align:right"></div>
-   <button class="btn btn-main" data-act="save-settings">حفظ بيانات الدفع</button></div>
-  <div class="sh-sec"><h3>القائمة: الأسعار والصور والتوفر</h3><span class="hint">للأطباق ذات الأحجام: الخانات بالترتيب صغير، وسط، كبير.</span>
-   <div class="seg"><button data-act="ed-brand" data-v="fareeq" aria-pressed="${edBrand==='fareeq'}">فريج بن عاقول</button><button data-act="ed-brand" data-v="buns" aria-pressed="${edBrand==='buns'}">جست بنز</button></div>
+  <div><div class="nm">${esc(m.name)}</div><div class="ctrls">${(m.sizes?[0,1,2]:[0]).map(i=>`<input class="input num ltr" type="number" step="0.050" min="0" id="pr-${m.id}-${i}" data-price="${m.id}" data-sz="${i}" value="${bhd(priceOf(m.id,i))}" aria-label="${L('سعر','Price of')} ${esc(m.name)}${m.sizes?' '+SIZES[i][0]:''}" ${m.sizes?`title="${SIZES[i][0]}" placeholder="${SIZES[i][0]}"`:''} style="width:${m.sizes?84:100}px">`).join('')}
+   <span class="mini">${ic('image',15)}${e.photo?L('تغيير الصورة','Change photo'):L('رفع صورة','Upload photo')}<input type="file" accept="image/*" data-photo="${m.id}" aria-label="${L('صورة','Photo of')} ${esc(m.name)}"></span>
+   ${e.photo?`<button class="mini" data-act="rm-photo" data-id="${m.id}">${L('إزالة','Remove')}</button>`:''}</div></div>
+  <button class="switch" role="switch" aria-checked="${isAvail(m.id)}" data-act="avail" data-id="${m.id}" aria-label="${esc(m.name)} ${L('متوفر','available')}"></button></div>`}).join('');
+ return head(L('الإعدادات','Settings'))+`
+  <div class="sh-sec"><h3>${L('بيانات الدفع التي تظهر للزبون','Payment details shown to customers')}</h3>
+   <div class="field"><label for="s-holder">${L('اسم المستفيد','Account name')}</label><input class="input" id="s-holder" value="${esc(S.holder)}"></div>
+   <div class="field"><label for="s-bank">${L('البنك','Bank')}</label><input class="input" id="s-bank" value="${esc(S.bank)}"></div>
+   <div class="field"><label for="s-iban">${L('رقم الآيبان','IBAN')}</label><input class="input ltr" id="s-iban" value="${esc(fmtIban(S.iban))}" style="text-align:left"><span class="err" id="iban-err" hidden>${L('الآيبان البحريني 22 خانة ويبدأ بـ BH.','A Bahraini IBAN has 22 characters and starts with BH.')}</span></div>
+   <div class="row2"><div class="field"><label for="s-benefit">${L('رقم BenefitPay','BenefitPay number')}</label><input class="input ltr num" id="s-benefit" inputmode="tel" value="${esc(S.benefit)}" style="text-align:right"></div>
+   <div class="field"><label for="s-fee">${L('رسوم التوصيل (د.ب)','Delivery fee (BHD)')}</label><input class="input ltr num" id="s-fee" type="number" step="0.100" min="0" value="${bhd(S.fee)}" style="text-align:right"></div></div>
+   <div class="field"><label for="s-pin">${L('رمز دخول اللوحة','Board access code')}</label><input class="input ltr num" id="s-pin" inputmode="numeric" maxlength="6" value="${esc(S.pin)}" style="text-align:right"></div>
+   <button class="btn btn-main" data-act="save-settings">${L('حفظ بيانات الدفع','Save payment details')}</button></div>
+  <div class="sh-sec"><h3>${L('القائمة: الأسعار والصور والتوفر','Menu: prices, photos and availability')}</h3><span class="hint">${L('للأطباق ذات الأحجام: الخانات بالترتيب صغير، وسط، كبير.','For dishes with sizes, the boxes are small, medium, large.')}</span>
+   <div class="seg"><button data-act="ed-brand" data-v="fareeq" aria-pressed="${edBrand==='fareeq'}">${BRANDS.fareeq.ar}</button><button data-act="ed-brand" data-v="buns" aria-pressed="${edBrand==='buns'}">${BRANDS.buns.ar}</button></div>
    <div>${rows}</div></div>
-  <div class="sh-sec"><h3>الطلبات التجريبية</h3><button class="btn btn-soft" data-act="clear-samples">حذف طلبات المثال</button></div>`;
+  <div class="sh-sec"><h3>${L('الطلبات التجريبية','Sample orders')}</h3><button class="btn btn-soft" data-act="clear-samples">${L('حذف طلبات المثال','Delete sample orders')}</button></div>`;
 }
 
 /* ---------------- events ---------------- */
@@ -1011,11 +1049,15 @@ document.addEventListener('click',async e=>{
  const t=e.target.closest('[data-act]');if(!t)return;
  const a=t.dataset.act,id=t.dataset.id,v=t.dataset.v;
  switch(a){
+  case 'lang':{
+   const flip=()=>{lang=lang==='en'?'ar':'en';try{localStorage.setItem('fbq-lang',lang)}catch(_){}applyLang();
+    if(view==='start')renderStart();else if(view==='menu')renderMenu();else renderBoard();if(sheetKind)renderSheet();};
+   const app=$('#app');if(RM){flip();break}app.classList.add('swap');setTimeout(()=>{flip();requestAnimationFrame(()=>app.classList.remove('swap'))},220);break}
   case 'close-sheet':closeSheet();break;
   case 'mine':openSheet('mine');break;
   case 'track':if(!brand)brand=store.orders.find(o=>o.id===id).brand;openSheet('track',id);break;
   case 'branch':openSheet('branch');break;
-  case 'set-branch':store.profile.branch=v;save();closeSheet();renderMenu();toast('فرع '+branchName(v));break;
+  case 'set-branch':store.profile.branch=v;save();closeSheet();renderMenu();toast(L('فرع ','Branch: ')+branchName(v));break;
   case 'cat':{const s=$('#sec-'+t.dataset.cat);if(s)s.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});break}
   case 'item':itemQty=1;itemSz=0;itemPicks={};openSheet('item',id);break;
   case 'pinc':{const m=byId(sheetArg);if(pickTotal()<m.pick){itemPicks[v]=(itemPicks[v]||0)+1;const st=$('.sheet').scrollTop;renderSheet();$('.sheet').scrollTop=st}break}
@@ -1024,7 +1066,7 @@ document.addEventListener('click',async e=>{
   case 'add':addToCart(id,1,'',t);break;
   case 'inc':if(id==='__item'){itemQty=Math.min(20,itemQty+1);renderSheet()}else changeQty(id,1);break;
   case 'dec':if(id==='__item'){itemQty=Math.max(1,itemQty-1);renderSheet()}else changeQty(id,-1);break;
-  case 'item-add':{const m0=byId(id);if(m0.pick&&pickTotal()!==m0.pick)break;let note=(($('#item-note')||{}).value||'').trim();if(m0.pick)note='الأطباق: '+pickNote(m0)+(note?' · '+note:'');closeSheet();{const sz=byId(id).sizes?itemSz:0;setTimeout(()=>addToCart(id,itemQty,note.trim(),$(`.card[data-id="${id}"] .art`),sz),RM?0:330)}break}
+  case 'item-add':{const m0=byId(id);if(m0.pick&&pickTotal()!==m0.pick)break;let note=(($('#item-note')||{}).value||'').trim();if(m0.pick)note=L('الأطباق: ','Dishes: ')+pickNote(m0)+(note?' · '+note:'');closeSheet();{const sz=byId(id).sizes?itemSz:0;setTimeout(()=>addToCart(id,itemQty,note.trim(),$(`.card[data-id="${id}"] .art`),sz),RM?0:330)}break}
   case 'cart':checkout.errors={};openSheet('cart');break;
   case 'linc':case 'ldec':{readCartForm();const c=cart(),l=c[+t.dataset.i];l.qty+=a==='linc'?1:-1;if(l.qty<=0)c.splice(+t.dataset.i,1);save();renderSheet();refreshCard(l.id);renderCartBar();break}
   case 'otype':readCartForm();checkout.type=v;renderSheet();break;
@@ -1038,7 +1080,7 @@ document.addEventListener('click',async e=>{
   case 'rej':rejecting=id;rejReason='';renderBoard();break;
   case 'rr':rejReason=v;renderBoard();break;
   case 'rej-cancel':rejecting=null;renderBoard();break;
-  case 'rej-ok':{const o=store.orders.find(x=>x.id===id);o.status='rejected';o.reason=rejReason;rejecting=null;save();renderBoard();toast(`رُفض ${o.id} وتم إبلاغ الزبون`);break}
+  case 'rej-ok':{const o=store.orders.find(x=>x.id===id);o.status='rejected';o.reason=rejReason;rejecting=null;save();renderBoard();toast(L(`رُفض ${o.id} وتم إبلاغ الزبون`,`${o.id} rejected, customer notified`));break}
   case 'view-rc':{const o=store.orders.find(x=>x.id===id);const vw=$('#viewer');$('img',vw).src=o.receipt;vw.hidden=false;break}
   case 'close-viewer':$('#viewer').hidden=true;break;
   case 'settings':openSheet('settings');break;
@@ -1050,17 +1092,17 @@ document.addEventListener('click',async e=>{
    if(!/^BH\d{2}[A-Z]{4}[A-Z0-9]{14}$/.test(iban)){$('#iban-err').hidden=false;$('#s-iban').classList.add('bad');break}
    const S=store.settings;S.holder=$('#s-holder').value.trim()||S.holder;S.bank=$('#s-bank').value.trim()||S.bank;S.iban=iban;
    S.benefit=$('#s-benefit').value.replace(/[^\d]/g,'')||S.benefit;S.fee=Math.max(0,parseFloat($('#s-fee').value)||0);
-   const pin=$('#s-pin').value.replace(/[^\d]/g,'');if(pin.length>=4)S.pin=pin;S.sample=false;save();toast('تم حفظ بيانات الدفع');renderSheet();break}
-  case 'clear-samples':store.orders=store.orders.filter(o=>!o.sample);save();renderBoard();toast('تم حذف طلبات المثال');break;
+   const pin=$('#s-pin').value.replace(/[^\d]/g,'');if(pin.length>=4)S.pin=pin;S.sample=false;save();toast(L('تم حفظ بيانات الدفع','Payment details saved'));renderSheet();break}
+  case 'clear-samples':store.orders=store.orders.filter(o=>!o.sample);save();renderBoard();toast(L('تم حذف طلبات المثال','Sample orders deleted'));break;
  }
 });
 document.addEventListener('change',async e=>{
  const t=e.target;
  if(t.id==='b-branch'){bBranch=t.value;renderBoard();return}
- if(t.id==='rc-file'&&t.files[0]){try{checkout.receipt=await compress(t.files[0],1100,.72);renderSheet();toast('تم إرفاق الإيصال')}catch(err){toast('اختر صورة (JPG أو PNG) للإيصال')}return}
- if(t.dataset.reupload&&t.files[0]){try{const o=store.orders.find(x=>x.id===t.dataset.reupload);o.receipt=await compress(t.files[0],1100,.72);o.status='review';o.reason='';save();renderSheet();toast('وصلنا الإيصال الجديد')}catch(err){toast('اختر صورة للإيصال')}return}
- if(t.dataset.photo&&t.files[0]){try{const ed=store.menuEdits[t.dataset.photo]=store.menuEdits[t.dataset.photo]||{};ed.photo=await compress(t.files[0],720,.8);if(!save()){delete ed.photo;toast('الصورة كبيرة على مساحة التخزين')}renderSheet()}catch(err){toast('اختر ملف صورة')}return}
- if(t.dataset.price){const n=parseFloat(t.value);if(n>=0){const id=t.dataset.price,m=byId(id),ed=store.menuEdits[id]=store.menuEdits[id]||{},v=Math.round(n*1000)/1000;if(m.sizes){const a=priceArr(id).slice();a[+t.dataset.sz]=v;ed.price=a}else ed.price=v;save();toast('تم تحديث السعر')}return}
+ if(t.id==='rc-file'&&t.files[0]){try{checkout.receipt=await compress(t.files[0],1100,.72);renderSheet();toast(L('تم إرفاق الإيصال','Receipt attached'))}catch(err){toast(L('اختر صورة (JPG أو PNG) للإيصال','Choose a JPG or PNG image for the receipt'))}return}
+ if(t.dataset.reupload&&t.files[0]){try{const o=store.orders.find(x=>x.id===t.dataset.reupload);o.receipt=await compress(t.files[0],1100,.72);o.status='review';o.reason='';save();renderSheet();toast(L('وصلنا الإيصال الجديد','New receipt received'))}catch(err){toast(L('اختر صورة للإيصال','Choose an image for the receipt'))}return}
+ if(t.dataset.photo&&t.files[0]){try{const ed=store.menuEdits[t.dataset.photo]=store.menuEdits[t.dataset.photo]||{};ed.photo=await compress(t.files[0],720,.8);if(!save()){delete ed.photo;toast(L('الصورة كبيرة على مساحة التخزين','The photo is too large for storage'))}renderSheet()}catch(err){toast(L('اختر ملف صورة','Choose an image file'))}return}
+ if(t.dataset.price){const n=parseFloat(t.value);if(n>=0){const id=t.dataset.price,m=byId(id),ed=store.menuEdits[id]=store.menuEdits[id]||{},v=Math.round(n*1000)/1000;if(m.sizes){const a=priceArr(id).slice();a[+t.dataset.sz]=v;ed.price=a}else ed.price=v;save();toast(L('تم تحديث السعر','Price updated'))}return}
 });
 document.addEventListener('submit',e=>{
  if(e.target.id!=='gate')return;e.preventDefault();
@@ -1074,7 +1116,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('#viewer').hi
 addEventListener('storage',e=>{
  if(e.key!==KEY)return;store=loadStore();
  const newOnes=store.orders.filter(o=>!seen.has(o.id));newOnes.forEach(o=>{seen.add(o.id);fresh.add(o.id)});
- if(view==='board'&&unlocked){if(newOnes.length){beep();toast(`طلب جديد ${newOnes[0].id}`)}if(!(sheetKind==='settings'))renderBoard()}
+ if(view==='board'&&unlocked){if(newOnes.length){beep();toast(L(`طلب جديد ${newOnes[0].id}`,`New order ${newOnes[0].id}`))}if(!(sheetKind==='settings'))renderBoard()}
  if(sheetKind==='track'||sheetKind==='mine')renderSheet();
 });
 
